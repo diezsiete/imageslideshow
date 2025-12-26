@@ -1,0 +1,27 @@
+{# **
+ * basedon src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Manufacturer/index.html.twig
+ * #}
+
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% set layoutHeaderToolbarBtn = {
+  add_event: {
+    href: path('imageslideshow_create'),
+    desc: 'Crear nuevo',
+    icon: 'add_circle_outline',
+  },
+} %}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      {% include '@PrestaShop/Admin/Common/Grid/grid_panel.html.twig' with {'grid': grid} %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
+  {#{{ siglo_entry_script_tag('slideshow') }}#}
+{% endblock %}

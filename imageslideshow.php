@@ -41,6 +41,12 @@ class ImageSlideshow extends Module implements WidgetInterface
         return parent::uninstall() && $this->dropTables();
     }
 
+    public function getContent()
+    {
+        $route = $this->get('router')->generate('imageslideshow_index');
+        Tools::redirectAdmin($route);
+    }
+
     public function hookdisplayHeader(): void
     {
         // $this->context->controller->registerStylesheet('modules-homeslider', 'modules/' . $this->name . '/css/homeslider.css', ['media' => 'all', 'priority' => 150]);

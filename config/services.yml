@@ -1,0 +1,34 @@
+services:
+
+  PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController:
+    autoconfigure: true
+    autowire: true
+
+  PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController:
+    autoconfigure: true
+    autowire: true
+
+
+  PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory: ~
+
+  PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowQueryBuilder:
+    arguments:
+      - '@doctrine.dbal.default_connection'
+      - '%database_prefix%'
+      - '@prestashop.core.query.doctrine_search_criteria_applicator'
+
+  prestashop.module.imageslideshow.grid.data_provider.imageslideshow:
+    class: '%prestashop.core.grid.data.factory.doctrine_grid_data_factory%'
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowQueryBuilder'
+      - '@prestashop.core.hook.dispatcher'
+      - '@prestashop.core.grid.query.doctrine_query_parser'
+      - 'imageslideshow'
+
+  prestashop.module.imageslideshow.grid.grid_factory.imageslideshow:
+    class: PrestaShop\PrestaShop\Core\Grid\GridFactory
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory'
+      - '@prestashop.module.imageslideshow.grid.data_provider.imageslideshow'
+      - '@prestashop.core.grid.filter.form_factory'
+      - '@prestashop.core.hook.dispatcher'
