@@ -8,6 +8,15 @@ services:
     autoconfigure: true
     autowire: true
 
+  PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType:
+    tags: [ form.type ]
+
+  PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler:
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository'
+      - '@doctrine.orm.default_entity_manager'
+      - '@property_accessor'
+
 
   PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory: ~
 
@@ -16,6 +25,24 @@ services:
       - '@doctrine.dbal.default_connection'
       - '%database_prefix%'
       - '@prestashop.core.query.doctrine_search_criteria_applicator'
+
+  PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository:
+    arguments: [ '@doctrine' ]
+    tags: [ doctrine.repository_service ]
+
+  prestashop.module.imageslideshow.form.builder.slideshow:
+    class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder
+    factory: [ '@prestashop.core.form.builder.form_builder_factory', 'create' ]
+    arguments:
+      - PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType
+      - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository'
+
+  prestashop.module.imageslideshow.form.handler.slideshow:
+    class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler
+    factory: [ '@prestashop.core.form.identifiable_object.handler.form_handler_factory', 'create' ]
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler'
+
 
   prestashop.module.imageslideshow.grid.data_provider.imageslideshow:
     class: '%prestashop.core.grid.data.factory.doctrine_grid_data_factory%'

@@ -1,0 +1,14 @@
+{# **
+ * basedon src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Cms/add.html.twig
+ * #}
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{# TODO quitar?#}
+{#{% block stylesheets %}
+  {{ parent() }}
+  {{ siglo_entry_link_tag('slideshow-form') }}
+{% endblock %}#}
+
+{% block content %}
+  {{ include('@Modules/imageslideshow/views/templates/admin/_form.html.twig', {}) }}
+{% endblock %}

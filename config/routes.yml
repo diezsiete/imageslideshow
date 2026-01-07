@@ -15,49 +15,49 @@ imageslideshow_create:
     _legacy_link: ImageSlideshow:create
 
 imageslideshow_edit:
-  path: /imageslideshow/{idSlideshow}/edit
+  path: /imageslideshow/{idImageSlideshow}/edit
   methods: [GET, POST]
   defaults:
     _controller: 'PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::editAction'
     _legacy_controller: ImageSlideshow
     _legacy_link: ImageSlideshow:edit
     _legacy_parameters:
-      id_slideshow: idSlideshow
+      id_image_slideshow: idImageSlideshow
   requirements:
-    idSlideshow: \d+
+    idImageSlideshow: \d+
 
 imageslideshow_delete:
-  path: /imageslideshow/{idSlideshow}/delete
+  path: /imageslideshow/{idImageSlideshow}/delete
   methods: DELETE
   defaults:
     _controller: 'PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::deleteAction'
     _legacy_controller: ImageSlideshow
     _legacy_link: ImageSlideshow:delete
     _legacy_parameters:
-      id_slideshow: idSlideshow
+      id_image_slideshow: idImageSlideshow
   requirements:
-    idSlideshow: \d+
+    idImageSlideshow: \d+
 
 imageslideshow_toggle:
-  path: /imageslideshow/{idSlideshow}/toggle-status
+  path: /imageslideshow/{idImageSlideshow}/toggle-status
   methods: POST
   defaults:
     _controller: 'PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::toggleStatusAction'
     _legacy_controller: ImageSlideshow
     _legacy_link: ImageSlideshow:toggleStatus
     _legacy_parameters:
-      id_slideshow: idSlideshow
+      id_image_slideshow: idImageSlideshow
   requirements:
-    idSlideshow: \d+
+    idImageSlideshow: \d+
 
 imageslideshow_slides:
-  path: /imageslideshow/{idSlideshow}/slides
+  path: /imageslideshow/{idImageSlideshow}/slides
   methods: [ GET, POST ]
   defaults:
     _controller: 'PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::slidesAction'
     _legacy_controller: ImageSlideshowSlide
     _legacy_link: ImageSlideshowSlide:products
     _legacy_parameters:
-      id_slideshow: idSlideshow
+      id_image_slideshow: idImageSlideshow
     requirements:
-      idSlideshow: \d+
+      idImageSlideshow: \d+
