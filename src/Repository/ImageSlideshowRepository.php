@@ -21,16 +21,40 @@ class ImageSlideshowRepository extends ServiceEntityRepository implements FormDa
         parent::__construct($managerRegistry, ImageSlideshow::class);
     }
 
+    public function exists(string|int $id): bool
+    {
+        return (bool) $this->getById($id, 'id');
+    }
+
+    public function getSlug(string|int $id): ?string
+    {
+        return $this->getById($id, 'slug');
+    }
+
     public function getData($id)
     {
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return $this->createQueryBuilder('is')
-            ->where("is.id = :id")->setParameter('id', $id)
-            ->getQuery()->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+        return $this->getById($id, hydrationMode: AbstractQuery::HYDRATE_ARRAY);
     }
 
     public function getDefaultData(): array
     {
         return [];
+    }
+
+
+    private function getById(int|string $id, ?string $field = null, int $hydrationMode = AbstractQuery::HYDRATE_OBJECT): mixed
+    {
+        if (!$id) {
+            return null;
+        }
+        $qb = $this->createQueryBuilder('ims')
+            ->where("ims.id = :id")
+            ->setParameter('id', $id);
+        if ($field) {
+            $qb->select("ims.$field");
+            $hydrationMode = AbstractQuery::HYDRATE_SINGLE_SCALAR;
+        }
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $qb->getQuery()->getOneOrNullResult($hydrationMode);
     }
 }

@@ -15,7 +15,6 @@ class ImageSlideshowType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $slugDisabled = (bool)($options['data']['id'] ?? false);
         $builder
             ->add('name', FormType\TextType::class, [
                 'constraints' => [
@@ -31,7 +30,6 @@ class ImageSlideshowType extends AbstractType
                 'attr' => [
                     'class' => 'js-copier-destination-friendly-url',
                 ],
-                'disabled' => $slugDisabled,
                 'constraints' => [
                     new IsUrlRewrite(),
                     new Assert\Length([
