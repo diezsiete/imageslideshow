@@ -1,0 +1,19 @@
+{
+  "name": "imageslideshow",
+  "version": "1.0.0",
+  "description": "PrestaShop Module Image Slideshow",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --color --mode=production",
+    "dev": "webpack --progress --mode=development",
+    "watch": "npm run dev -- --watch"
+  },
+  "author": "diezsiete",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild-loader": "^4.4.1",
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

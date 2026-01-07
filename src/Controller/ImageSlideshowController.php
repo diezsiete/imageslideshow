@@ -18,6 +18,7 @@ class ImageSlideshowController extends PrestaShopAdminController
     {
         $grid = $gridFactory->getGrid($filters);
         return $this->render('@Modules/imageslideshow/views/templates/admin/index.html.twig', [
+            'layoutTitle' => 'Image Slideshow',
             'grid' => $this->presentGrid($grid),
         ]);
     }

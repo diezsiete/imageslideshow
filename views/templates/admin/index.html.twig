@@ -23,5 +23,7 @@
 {% block javascripts %}
   {{ parent() }}
   <script src="{{ asset('themes/default/js/bundle/pagination.js') }}"></script>
+
   {#{{ siglo_entry_script_tag('slideshow') }}#}
+  <script src="{{ asset('../modules/imageslideshow/public/slideshow.js') }}"></script>
 {% endblock %}
