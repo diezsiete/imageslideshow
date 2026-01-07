@@ -1,0 +1,93 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{# TODO translate spanish Agregar diapositiva #}
+{% set layoutHeaderToolbarBtn = {
+  add_event: {
+    href: path('imageslideshow_slides_add', {idImageSlideshow: slideshow.id}),
+    desc:  'Add slide'|trans({}, 'Modules.Imageslideshow.Imageslideshow'),
+    icon: 'add_circle_outline',
+  },
+} %}
+
+{#{% block stylesheets %}
+  {{ parent() }}
+  {{ she_entry_link_tag('slideshow-slides') }}
+{% endblock %}#}
+
+{% block content %}
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          {# TODO translate spanish #}
+          {{ 'Slides'|trans({}, 'Modules.Imageslideshow.Imageslideshow') }} {# Diapositivas #}
+        </div>
+        <div class="card-body">
+          {# basedon modules/ps_imageslider/views/templates/hook/list.tpl #}
+          <div id="slidesContent">
+            <div id="slides" data-update-positions-path="{{ path('imageslideshow_slides_add_update_positions', {
+              'idImageSlideshow': slideshow.id,
+            }) }}">
+              {% for slide in slides %}
+                <div id="slides_{{ slide.id }}" class="panel">
+                  <div class="row">
+                    <div class="col-lg-1">
+                      <span><i class="material-icons">open_with</i></span>
+                    </div>
+                    <div class="col-md-3">
+                      <img src="{{ slide.imagePath }}" alt="{{ slide.title }}" class="img-thumbnail"/>
+                    </div>
+                    <div class="col-md-8">
+                      <h4 class="float-left">
+                        {# #{{ slide.position }} - #}{{ slide.title }}
+                      </h4>
+                      <div class="btn-group-action float-end">
+                        <a class="{{ slide.active ? 'btn btn-success' : 'btn btn-danger' }} js-toggle-link"
+                           href="{{ path('imageslideshow_slides_toggle', {
+                             'idImageSlideshow': slideshow.id,
+                             'idImageSlideshowSlide': slide.id
+                           }) }}">
+                          <i class="material-icons">{{ slide.active ? 'check' : 'close' }}</i>
+                          {{ (slide.active ? 'Enabled' : 'Disabled')|trans({}, 'Admin.Global') }}
+                        </a>
+
+                        <a class="btn btn-default" href="{{ path('imageslideshow_slides_edit', {
+                          'idImageSlideshow': slideshow.id,
+                          'idImageSlideshowSlide': slide.id
+                        }) }}">
+                          <i class="material-icons">edit</i>{{ 'Edit'|trans({}, 'Admin.Global') }}
+                        </a>
+                        <a class="btn btn-default js-delete-link" href="{{ path('imageslideshow_slides_delete', {
+                          'idImageSlideshow': slideshow.id,
+                          'idImageSlideshowSlide': slide.id
+                        }) }}">
+                          <i class="material-icons">delete</i>{{ 'Delete'|trans({}, 'Admin.Global') }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="panel">
+                  <p class="mb-0">
+                    {# TODO translate spanish #}
+                    {{ 'Slideshow has no slides'|trans({}, 'Modules.Imageslideshow.Imageslideshow') }} {# Carrusel no tiene diapositivas #}
+                  </p>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{#{% block javascripts %}
+  {{ parent() }}
+  {{ she_entry_script_tag('slideshow-slides') }}
+{% endblock %}#}

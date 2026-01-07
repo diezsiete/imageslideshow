@@ -9,7 +9,6 @@ use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandlerInterface;
 use PrestaShop\PrestaShop\Core\Grid\GridFactoryInterface;
-use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,21 +19,8 @@ use Throwable;
  * @property EntityManagerInterface em
  * @property ImageSlideshowRepository imageSlideshowRepo
  */
-class ImageSlideshowController extends PrestaShopAdminController
+class ImageSlideshowController extends ImageSlideshowAdminController
 {
-    public static function getSubscribedServices(): array
-    {
-        return parent::getSubscribedServices() + [
-            'em' => EntityManagerInterface::class,
-            'imageSlideshowRepo' => ImageSlideshowRepository::class,
-        ];
-    }
-
-    public function __get(string $name)
-    {
-        return $this->container->get($name);
-    }
-
     public function indexAction(
         #[Autowire(service: 'prestashop.module.imageslideshow.grid.grid_factory.imageslideshow')]
         GridFactoryInterface  $gridFactory,

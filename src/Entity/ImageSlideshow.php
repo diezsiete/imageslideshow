@@ -46,10 +46,10 @@ class ImageSlideshow
      */
     private Collection|array $slides;
 
-    // public static function getImagesDir(): string
-    // {
-    //     return 'imageslideshow/images';
-    // }
+    public static function getImagesDir(): string
+    {
+        return 'imageslideshow/images';
+    }
 
     public function __construct()
     {
@@ -134,8 +134,8 @@ class ImageSlideshow
         return null;
     }
 
-    // public function getImagesPath(): string
-    // {
-    //     return _MODULE_DIR_ . $this->getImagesDir();
-    // }
+    public function getImagesPath(): string
+    {
+        return _MODULE_DIR_ . $this->getImagesDir();
+    }
 }
