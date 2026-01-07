@@ -3,6 +3,7 @@
 namespace PrestaShop\Module\ImageSlideshow\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshow;
 use PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowFilters;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
@@ -121,6 +122,29 @@ class ImageSlideshowController extends PrestaShopAdminController
             } else {
                 // TODO translation
                 $this->addFlash('error', sprintf("Entidad %s no existe", $idImageSlideshow));
+            }
+        } catch (Throwable $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            $entity = null;
+        }
+
+        return $this->redirectToRoute('imageslideshow_index');
+    }
+
+    public function toggleStatusAction(int $idImageSlideshow): RedirectResponse
+    {
+        try {
+            /** @var ImageSlideshow $entity */
+            $entity = $this->imageSlideshowRepo->find($idImageSlideshow);
+            if ($entity) {
+                $entity->toggle();
+                $this->em->flush();
+                $this->addFlash('success', $this->trans(
+                    'The status has been successfully updated.', domain: 'Admin.Notifications.Success'
+                ));
+            } else {
+                // TODO translation
+                $this->addFlash('error', sprintf("Entidad %s no existe", $id));
             }
         } catch (Throwable $exception) {
             $this->addFlash('error', $exception->getMessage());
