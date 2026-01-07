@@ -2,6 +2,7 @@
 
 namespace PrestaShop\Module\ImageSlideshow\Controller;
 
+use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowFilters;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
@@ -9,12 +10,13 @@ use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandlerInterf
 use PrestaShop\PrestaShop\Core\Grid\GridFactoryInterface;
 use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 /**
+ * @property EntityManagerInterface em
  * @property ImageSlideshowRepository imageSlideshowRepo
  */
 class ImageSlideshowController extends PrestaShopAdminController
@@ -22,6 +24,7 @@ class ImageSlideshowController extends PrestaShopAdminController
     public static function getSubscribedServices(): array
     {
         return parent::getSubscribedServices() + [
+            'em' => EntityManagerInterface::class,
             'imageSlideshowRepo' => ImageSlideshowRepository::class,
         ];
     }
@@ -105,5 +108,25 @@ class ImageSlideshowController extends PrestaShopAdminController
             // TODO translate spanish
             'layoutTitle' => $this->trans('Edit Image Slideshow', domain: 'Modules.Imageslideshow.Imageslideshow') // editar carrusel de imagenes
         ]);
+    }
+
+    public function deleteAction(int $idImageSlideshow): RedirectResponse
+    {
+        try {
+            $entity = $this->imageSlideshowRepo->find($idImageSlideshow);
+            if ($entity) {
+                $this->em->remove($entity);
+                $this->em->flush();
+                $this->addFlash('success', $this->trans('Successful deletion.', domain: 'Admin.Notifications.Success'));
+            } else {
+                // TODO translation
+                $this->addFlash('error', sprintf("Entidad %s no existe", $idImageSlideshow));
+            }
+        } catch (Throwable $exception) {
+            $this->addFlash('error', $exception->getMessage());
+            $entity = null;
+        }
+
+        return $this->redirectToRoute('imageslideshow_index');
     }
 }
