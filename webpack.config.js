@@ -15,6 +15,7 @@ class WebpackConfig {
       entry: {
         'imageslideshow': './_dev/admin/imageslideshow.ts',
         'imageslideshow-form': './_dev/admin/imageslideshow-form.ts',
+        'upsert-slide': './_dev/admin/upsert-slide.ts',
       },
       mode: this.mode,
       output: {

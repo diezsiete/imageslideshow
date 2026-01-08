@@ -90,3 +90,19 @@ imageslideshow_slides_add_update_positions:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::updatePositionsAction
   requirements:
     idImageSlideshow: \d+
+
+# imageslideshow_image -------------------------------------------------------------------------------------------------
+
+imageslideshow_image_upload_temp:
+  path: /imageslideshow/image/upload-temp
+  methods: [ POST ]
+  defaults:
+    _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageController::uploadTempAction
+
+imageslideshow_image_fetch:
+  path: /imageslideshow/image/fetch/{location}/{fileName}
+  methods: [ GET ]
+  defaults:
+    _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageController::fetchAction
+  requirements:
+    fileName: .+

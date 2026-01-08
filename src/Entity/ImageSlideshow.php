@@ -46,11 +46,6 @@ class ImageSlideshow
      */
     private Collection|array $slides;
 
-    public static function getImagesDir(): string
-    {
-        return 'imageslideshow/images';
-    }
-
     public function __construct()
     {
         $this->slides = new ArrayCollection();
@@ -132,10 +127,5 @@ class ImageSlideshow
             }
         }
         return null;
-    }
-
-    public function getImagesPath(): string
-    {
-        return _MODULE_DIR_ . $this->getImagesDir();
     }
 }

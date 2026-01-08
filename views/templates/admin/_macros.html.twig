@@ -1,0 +1,25 @@
+{# Campo para cargar imagen, mostrando imagen cargada #}
+{% macro form_image_row(form, image, vars, extraVars) %}
+  {% from '@PrestaShop/Admin/macros.html.twig' import form_group_row %}
+
+  {% set datas = extraVars.datas|default({}) %}
+
+  <div class="she-file-upload" {% for key, data in datas %} {{ key }}="{{ data }}"{% endfor %}>
+    {{ form_group_row(form, vars, extraVars) }}
+
+    {% if image is not null %}
+      <div class="form-group row file-viewer">
+        <label for="" class="form-control-label"></label>
+        <div class="col-sm">
+          {# basedon src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Manufacturer/logo_image.html.twig #}
+          <figure class="figure">
+            <img src="{{ image.path }}" class="figure-img img-fluid img-thumbnail">
+            <figcaption class="figure-caption">
+              {{ 'File size'|trans({}, 'Admin.Advparameters.Feature') }} {{ image.size }}
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endmacro %}

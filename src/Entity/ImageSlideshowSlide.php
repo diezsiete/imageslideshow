@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table()
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository")
  */
 class ImageSlideshowSlide
 {
@@ -45,6 +45,11 @@ class ImageSlideshowSlide
      * @ORM\OneToMany(mappedBy="slide", targetEntity="PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlideLang", cascade={"persist", "remove"}, fetch="EAGER", orphanRemoval=true, indexBy="lang")
      */
     private Collection|array $lang;
+
+    public static function getImagesPath(): string
+    {
+        return _MODULE_DIR_ . 'imageslideshow/images';
+    }
 
     public function __construct()
     {
@@ -105,12 +110,12 @@ class ImageSlideshowSlide
 
     public function getImagePath(): string
     {
-        return $this->slideshow->getImagesPath() . '/' . $this->getLang()->getImage();
+        return static::getImagesPath() . '/' . $this->getLang()->getImage();
     }
     public function getImageMobilePath(): ?string
     {
         return ($imageMobile = $this->getLang()->getImageMobile())
-            ? $this->slideshow->getImagesPath() . "/$imageMobile"
+            ? static::getImagesPath() . "/$imageMobile"
             : null;
     }
 

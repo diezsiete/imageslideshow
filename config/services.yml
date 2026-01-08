@@ -8,7 +8,17 @@ services:
     autoconfigure: true
     autowire: true
 
+  PrestaShop\Module\ImageSlideshow\Form\FileUploadType:
+    arguments: [ '@router' ]
+    tags: [ form.type ]
+
   PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType:
+    tags: [ form.type ]
+
+  PrestaShop\Module\ImageSlideshow\Form\SlideType:
+    arguments:
+      - "@translator"
+      - "@=service('prestashop.adapter.legacy.context').getLanguages()"
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler:
@@ -17,6 +27,11 @@ services:
       - '@doctrine.orm.default_entity_manager'
       - '@property_accessor'
 
+  PrestaShop\Module\ImageSlideshow\Form\SlideFormDataHandler:
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository'
+      - '@doctrine.orm.default_entity_manager'
+      - '@PrestaShop\Module\ImageSlideshow\Service\ImageTemp'
 
   PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory: ~
 
@@ -30,6 +45,12 @@ services:
     arguments: [ '@doctrine' ]
     tags: [ doctrine.repository_service ]
 
+  PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository:
+    arguments: [ '@doctrine' ]
+    tags: [ doctrine.repository_service ]
+
+  PrestaShop\Module\ImageSlideshow\Service\ImageTemp: ~
+
   prestashop.module.imageslideshow.form.builder.slideshow:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder
     factory: [ '@prestashop.core.form.builder.form_builder_factory', 'create' ]
@@ -37,12 +58,24 @@ services:
       - PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType
       - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository'
 
+  prestashop.module.imageslideshow.form.builder.slide:
+    class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder
+    factory: [ '@prestashop.core.form.builder.form_builder_factory', 'create' ]
+    arguments:
+      - PrestaShop\Module\ImageSlideshow\Form\SlideType
+      - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository'
+
   prestashop.module.imageslideshow.form.handler.slideshow:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler
     factory: [ '@prestashop.core.form.identifiable_object.handler.form_handler_factory', 'create' ]
     arguments:
       - '@PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler'
 
+  prestashop.module.imageslideshow.form.handler.slide:
+    class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler
+    factory: [ '@prestashop.core.form.identifiable_object.handler.form_handler_factory', 'create' ]
+    arguments:
+      - '@PrestaShop\Module\ImageSlideshow\Form\SlideFormDataHandler'
 
   prestashop.module.imageslideshow.grid.data_provider.imageslideshow:
     class: '%prestashop.core.grid.data.factory.doctrine_grid_data_factory%'
