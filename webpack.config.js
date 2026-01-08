@@ -21,6 +21,7 @@ class WebpackConfig {
         path: path.resolve(__dirname, 'public'),
         filename: this.#getDestinationFilename('.js'),
         pathinfo: !this.isProduction,
+        clean: true
       },
       module: {
         rules: this.#buildRules(),
@@ -81,11 +82,6 @@ class WebpackConfig {
 
   #buildPlugins() {
     const plugins = [];
-
-    // plugins.push(new MiniCssExtractPlugin({
-    //   filename: path.join('..', 'css', this.#getDestinationFilename('.css')),
-    //   chunkFilename: path.join('..', 'css', this.#getDestinationFilename('.css'))
-    // }))
 
     plugins.push(
       new MiniCssExtractPlugin({filename: this.#getDestinationFilename('.css')}),
