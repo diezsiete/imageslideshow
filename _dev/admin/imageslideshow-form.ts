@@ -1,1 +1,1 @@
-import './imageslideshow-form.scss'
+import './imageslideshow.scss'
