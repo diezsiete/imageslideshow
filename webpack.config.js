@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 class WebpackConfig {
   constructor(mode = 'development') {
@@ -12,7 +13,8 @@ class WebpackConfig {
   build() {
     return {
       entry: {
-        'slideshow': './_dev/admin/imageslideshow.ts'
+        'imageslideshow': './_dev/admin/imageslideshow.ts',
+        'imageslideshow-form': './_dev/admin/imageslideshow-form.ts',
       },
       mode: this.mode,
       output: {
@@ -49,11 +51,46 @@ class WebpackConfig {
       },
     });
 
+    rules.push({
+      test: /\.(sa|sc|c)ss$/,
+      use: [
+        MiniCssExtractPlugin.loader,
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: !this.isProduction
+          }
+        },
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: !this.isProduction
+          }
+        },
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: true,
+          }
+        }
+      ]
+    })
+
     return rules;
   }
 
   #buildPlugins() {
     const plugins = [];
+
+    // plugins.push(new MiniCssExtractPlugin({
+    //   filename: path.join('..', 'css', this.#getDestinationFilename('.css')),
+    //   chunkFilename: path.join('..', 'css', this.#getDestinationFilename('.css'))
+    // }))
+
+    plugins.push(
+      new MiniCssExtractPlugin({filename: this.#getDestinationFilename('.css')}),
+    )
+
     return plugins;
   }
 }

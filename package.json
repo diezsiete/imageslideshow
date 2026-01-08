@@ -11,7 +11,12 @@
   "author": "diezsiete",
   "license": "ISC",
   "devDependencies": {
+    "css-loader": "^7.1.2",
     "esbuild-loader": "^4.4.1",
+    "mini-css-extract-plugin": "^2.9.4",
+    "postcss-loader": "^8.2.0",
+    "sass": "^1.97.2",
+    "sass-loader": "^16.0.6",
     "typescript": "^5.9.3",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"

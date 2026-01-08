@@ -3,11 +3,11 @@
  * #}
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
 
-{# TODO quitar?#}
-{#{% block stylesheets %}
+{% block stylesheets %}
   {{ parent() }}
-  {{ siglo_entry_link_tag('slideshow-form') }}
-{% endblock %}#}
+  {#{{ siglo_entry_link_tag('slideshow-form') }}#}
+  <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/imageslideshow-form.css') }}" media="all">
+{% endblock %}
 
 {% block content %}
   {{ include('@Modules/imageslideshow/views/templates/admin/_form.html.twig', {}) }}
