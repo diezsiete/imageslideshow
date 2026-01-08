@@ -29,7 +29,7 @@ class ImageSlideshowController extends ImageSlideshowAdminController
     {
         $grid = $gridFactory->getGrid($filters);
         return $this->render('@Modules/imageslideshow/views/templates/admin/index.html.twig', [
-            'layoutTitle' => $this->trans('Image Slideshows', domain: 'Modules.Imageslideshow.Imageslideshow'), // carruseles de imagenes
+            'layoutTitle' => $this->trans('Slideshows', domain: 'Modules.Imageslideshow.Imageslideshow'), // carruseles de imagenes
             'grid' => $this->presentGrid($grid),
         ]);
     }
@@ -106,8 +106,7 @@ class ImageSlideshowController extends ImageSlideshowAdminController
                 $this->em->flush();
                 $this->addFlash('success', $this->trans('Successful deletion.', domain: 'Admin.Notifications.Success'));
             } else {
-                // TODO translation
-                $this->addFlash('error', sprintf("Entidad %s no existe", $idImageSlideshow));
+                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
             }
         } catch (Throwable $exception) {
             $this->addFlash('error', $exception->getMessage());
@@ -129,8 +128,7 @@ class ImageSlideshowController extends ImageSlideshowAdminController
                     'The status has been successfully updated.', domain: 'Admin.Notifications.Success'
                 ));
             } else {
-                // TODO translation
-                $this->addFlash('error', sprintf("Entidad %s no existe", $id));
+                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
             }
         } catch (Throwable $exception) {
             $this->addFlash('error', $exception->getMessage());

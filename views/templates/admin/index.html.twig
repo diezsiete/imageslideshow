@@ -4,11 +4,11 @@
 
 {% extends '@PrestaShop/Admin/layout.html.twig' %}
 
-{# TODO translation #}
+{# TODO translate spanish : Crear nuevo carrusel #}
 {% set layoutHeaderToolbarBtn = {
   add_event: {
     href: path('imageslideshow_create'),
-    desc: 'Crear nuevo',
+    desc:  'Add new slideshow'|trans({}, 'Modules.Imageslideshow.Imageslideshow'),
     icon: 'add_circle_outline',
   },
 } %}

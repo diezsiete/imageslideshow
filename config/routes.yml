@@ -3,26 +3,20 @@ imageslideshow_index:
   methods: [ GET ]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::indexAction
-    _legacy_controller: ImageSlideshowController
-    _legacy_link: ImageSlideshow
 
 imageslideshow_create:
   path: /imageslideshow/new
   methods: [GET, POST]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::createAction
-    _legacy_controller: ImageSlideshow
-    _legacy_link: ImageSlideshow:create
+    _legacy_controller: ImageSlideshowController
 
 imageslideshow_edit:
   path: /imageslideshow/{idImageSlideshow}/edit
   methods: [GET, POST]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::editAction
-    _legacy_controller: ImageSlideshow
-    _legacy_link: ImageSlideshow:edit
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
+    _legacy_controller: ImageSlideshowController
   requirements:
     idImageSlideshow: \d+
 
@@ -31,10 +25,6 @@ imageslideshow_delete:
   methods: DELETE
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::deleteAction
-    _legacy_controller: ImageSlideshow
-    _legacy_link: ImageSlideshow:delete
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
   requirements:
     idImageSlideshow: \d+
 
@@ -43,10 +33,6 @@ imageslideshow_toggle:
   methods: POST
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::toggleStatusAction
-    _legacy_controller: ImageSlideshow
-    _legacy_link: ImageSlideshow:toggleStatus
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
   requirements:
     idImageSlideshow: \d+
 
@@ -56,10 +42,7 @@ imageslideshow_slides:
   methods: [ GET, POST ]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::slidesAction
-    _legacy_controller: ImageSlideshowSlide
-    _legacy_link: ImageSlideshowSlide:slides
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
+    _legacy_controller: ImageSlideshowController
     requirements:
       idImageSlideshow: \d+
 
@@ -68,10 +51,7 @@ imageslideshow_slides_add:
   methods: [ GET, POST ]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::addAction
-    _legacy_controller: ImageSlideshowSlide
-    _legacy_link: ImageSlideshowSlide:add
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
+    _legacy_controller: ImageSlideshowController
   requirements:
     idImageSlideshow: \d+
 
@@ -80,11 +60,7 @@ imageslideshow_slides_edit:
   methods: [ GET, POST ]
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::editAction
-    _legacy_controller: ImageSlideshowSlide
-    _legacy_link: ImageSlideshowSlide:edit
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
-      id_image_slideshow_slide: idImageSlideshowSlide
+    _legacy_controller: ImageSlideshowController
   requirements:
     idImageSlideshow: \d+
     idImageSlideshowSlide: \d+
@@ -94,11 +70,6 @@ imageslideshow_slides_delete:
   methods: DELETE
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::deleteAction
-    _legacy_controller: ImageSlideshowSlide
-    _legacy_link: ImageSlideshowSlide:delete
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
-      id_image_slideshow_slide: idImageSlideshowSlide
   requirements:
     idImageSlideshow: \d+
     idImageSlideshowSlide: \d+
@@ -108,11 +79,6 @@ imageslideshow_slides_toggle:
   methods: POST
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::toggleStatusAction
-    _legacy_controller: ImageSlideshowSlideController
-    _legacy_link: ImageSlideshowSlideController:toggleStatus
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
-      id_image_slideshow_slide: idImageSlideshowSlide
   requirements:
     idImageSlideshow: \d+
     idImageSlideshowSlide: \d+
@@ -122,9 +88,5 @@ imageslideshow_slides_add_update_positions:
   methods: POST
   defaults:
     _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowSlideController::updatePositionsAction
-    _legacy_controller: ImageSlideshowSlide
-    _legacy_link: ImageSlideshowSlide:updatePositions
-    _legacy_parameters:
-      id_image_slideshow: idImageSlideshow
   requirements:
     idImageSlideshow: \d+
