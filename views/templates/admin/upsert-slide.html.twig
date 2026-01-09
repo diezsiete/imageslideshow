@@ -9,6 +9,11 @@
   <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/upsert-slide.css') }}" media="all">
 {% endblock %}
 
+{% block core_javascript %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/imageslideshow/public/migrate-mute.js') }}"></script>
+{% endblock %}
+
 {% block content %}
   {{ include('@Modules/imageslideshow/views/templates/admin/_form-slide.html.twig') }}
 {% endblock %}

@@ -14,6 +14,7 @@ class WebpackConfig {
     return {
       entry: {
         'imageslideshow': './_dev/admin/imageslideshow.ts',
+        'migrate-mute': './_dev/admin/migrate-mute.js',
         'upsert-slideshow': './_dev/admin/upsert-slideshow.ts',
         'upsert-slide': './_dev/admin/upsert-slide.ts',
       },
