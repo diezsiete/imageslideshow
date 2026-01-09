@@ -18,17 +18,9 @@
 
       {{ form_row(form.name) }}
 
-      {# TODO translation #}
-      {{ ps.form_group_row(form.slug, {}, {
-        'label': 'Llave',
-        'help': 'Interno para identificación en plantillas. ' ~ 'Only letters and the hyphen (-) character are allowed.'|trans({}, 'Admin.Design.Feature')
-      }) }}
+      {{ form_row(form.slug) }}
 
-
-      {# TODO translation #}
-      {{ ps.form_group_row(form.active, {}, {
-        'label': 'Activado'
-      }) }}
+      {{ form_row(form.active) }}
 
       {{ form_rest(form) }}
     </div>

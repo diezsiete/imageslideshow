@@ -14,7 +14,7 @@ class WebpackConfig {
     return {
       entry: {
         'imageslideshow': './_dev/admin/imageslideshow.ts',
-        'imageslideshow-form': './_dev/admin/imageslideshow-form.ts',
+        'upsert-slideshow': './_dev/admin/upsert-slideshow.ts',
         'upsert-slide': './_dev/admin/upsert-slide.ts',
       },
       mode: this.mode,
@@ -28,6 +28,11 @@ class WebpackConfig {
         rules: this.#buildRules(),
       },
       plugins: this.#buildPlugins(),
+      devtool: this.isProduction
+        // https://webpack.js.org/configuration/devtool/#for-production
+        ? 'source-map'
+        // https://webpack.js.org/configuration/devtool/#for-development
+        : 'inline-source-map',
     }
   }
 

@@ -55,7 +55,7 @@ class ImageSlideshowController extends ImageSlideshowAdminController
             $this->addFlash('error', $e->getMessage());
         }
 
-        return $this->render('@Modules/imageslideshow/views/templates/admin/upsert.html.twig', [
+        return $this->render('@Modules/imageslideshow/views/templates/admin/upsert-slideshow.html.twig', [
             'form' => $form->createView(),
             // TODO translate spanish
             'layoutTitle' => $this->trans('Create Image Slideshow', domain: 'Modules.Imageslideshow.Imageslideshow') // crear carrusel de imagenes
@@ -90,7 +90,7 @@ class ImageSlideshowController extends ImageSlideshowAdminController
             $this->addFlash('error', $e->getMessage());
         }
 
-        return $this->render('@Modules/imageslideshow/views/templates/admin/upsert.html.twig', [
+        return $this->render('@Modules/imageslideshow/views/templates/admin/upsert-slideshow.html.twig', [
             'form' => $form->createView(),
             // TODO translate spanish
             'layoutTitle' => $this->trans('Edit Image Slideshow', domain: 'Modules.Imageslideshow.Imageslideshow') // editar carrusel de imagenes

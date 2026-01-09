@@ -5,10 +5,14 @@
 
 {% block stylesheets %}
   {{ parent() }}
-  {#{{ siglo_entry_link_tag('slideshow-form') }}#}
-  <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/imageslideshow-form.css') }}" media="all">
+  <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/upsert-slideshow.css') }}" media="all">
 {% endblock %}
 
 {% block content %}
   {{ include('@Modules/imageslideshow/views/templates/admin/_form.html.twig', {}) }}
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/imageslideshow/public/upsert-slideshow.js') }}"></script>
 {% endblock %}

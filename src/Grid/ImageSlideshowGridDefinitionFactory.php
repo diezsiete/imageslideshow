@@ -16,12 +16,18 @@ use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\DataColumn;
 use PrestaShop\PrestaShop\Core\Grid\Column\Type\Common\ToggleColumn;
 use PrestaShop\PrestaShop\Core\Grid\Definition\Factory\GridDefinitionFactoryInterface;
 use PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinition;
+use PrestaShop\PrestaShop\Core\Grid\Definition\GridDefinitionInterface;
 use PrestaShop\PrestaShop\Core\Grid\Filter\FilterCollection;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 class ImageSlideshowGridDefinitionFactory implements GridDefinitionFactoryInterface
 {
     const GRID_ID = 'imageslideshow';
+
+    public function __construct(
+        private readonly TranslatorInterface $translator
+    ){}
 
     public function getId(): string
     {
@@ -33,7 +39,7 @@ class ImageSlideshowGridDefinitionFactory implements GridDefinitionFactoryInterf
         return 'Image Slideshow';
     }
 
-    public function getDefinition()
+    public function getDefinition(): GridDefinitionInterface
     {
         return new GridDefinition(
             $this->getId(),
@@ -62,7 +68,7 @@ class ImageSlideshowGridDefinitionFactory implements GridDefinitionFactoryInterf
                 'field' => 'slug',
             ]))
             ->add((new ToggleColumn('active'))
-                ->setName('Activo')
+                ->setName($this->translator->trans('Active', domain: 'Admin.Globals'))
                 ->setOptions([
                     'field' => 'active',
                     'route' => 'imageslideshow_toggle',

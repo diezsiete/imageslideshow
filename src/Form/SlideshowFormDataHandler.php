@@ -8,7 +8,7 @@ use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class ImageSlideshowFormDataHandler implements FormDataHandlerInterface
+class SlideshowFormDataHandler implements FormDataHandlerInterface
 {
     public function __construct(
         private readonly ImageSlideshowRepository  $imageSlideshowRepo,

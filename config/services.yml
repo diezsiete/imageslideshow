@@ -12,7 +12,8 @@ services:
     arguments: [ '@router' ]
     tags: [ form.type ]
 
-  PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType:
+  PrestaShop\Module\ImageSlideshow\Form\SlideshowType:
+    arguments: [ '@translator' ]
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\SlideType:
@@ -21,7 +22,7 @@ services:
       - "@=service('prestashop.adapter.legacy.context').getLanguages()"
     tags: [ form.type ]
 
-  PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler:
+  PrestaShop\Module\ImageSlideshow\Form\SlideshowFormDataHandler:
     arguments:
       - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository'
       - '@doctrine.orm.default_entity_manager'
@@ -33,7 +34,9 @@ services:
       - '@doctrine.orm.default_entity_manager'
       - '@PrestaShop\Module\ImageSlideshow\Service\ImageTemp'
 
-  PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory: ~
+  PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory:
+    arguments: [ '@translator' ]
+
 
   PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowQueryBuilder:
     arguments:
@@ -55,7 +58,7 @@ services:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder
     factory: [ '@prestashop.core.form.builder.form_builder_factory', 'create' ]
     arguments:
-      - PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowType
+      - PrestaShop\Module\ImageSlideshow\Form\SlideshowType
       - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository'
 
   prestashop.module.imageslideshow.form.builder.slide:
@@ -69,7 +72,7 @@ services:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler
     factory: [ '@prestashop.core.form.identifiable_object.handler.form_handler_factory', 'create' ]
     arguments:
-      - '@PrestaShop\Module\ImageSlideshow\Form\ImageSlideshowFormDataHandler'
+      - '@PrestaShop\Module\ImageSlideshow\Form\SlideshowFormDataHandler'
 
   prestashop.module.imageslideshow.form.handler.slide:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandler
