@@ -1,7 +1,5 @@
 <?php
 
-use Symfony\Contracts\Translation\TranslatorInterface;
-
 class ImageSlideshowInstaller
 {
     private array $adminControllers = [
@@ -20,9 +18,13 @@ class ImageSlideshowInstaller
         ]
     ];
 
-    public function install(TranslatorInterface $translator): bool
+    public function __construct(
+        private readonly ImageSlideshow $module,
+    ){}
+
+    public function install(): bool
     {
-        return $this->createTables() && $this->createTabs($translator);
+        return $this->createTables() && $this->createTabs() && $this->installSamples();
     }
 
     public function uninstall(): bool
@@ -37,15 +39,15 @@ class ImageSlideshowInstaller
             `id_shop`      INT DEFAULT 1    NOT NULL,
             `name`         VARCHAR(128)     NOT NULL,
             `slug`         VARCHAR(132)     NOT NULL,
-            `active`       tinyint(1) unsigned NOT NULL DEFAULT 1
+            `active`       TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8mb4;');
 
         $ok = $ok ? Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'image_slideshow_slide` (
             `id_image_slideshow_slide` INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `id_image_slideshow`       INT(10) UNSIGNED    NOT NULL,
-            `position`           smallint unsigned   NOT NULL DEFAULT 0,
-            `active`             tinyint(1) unsigned NOT NULL DEFAULT 1,
-            `target_blank`       tinyint(1) unsigned not null DEFAULT 0,
+            `position`           SMALLINT UNSIGNED   NOT NULL DEFAULT 0,
+            `active`             TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
+            `target_blank`       TINYINT(1) UNSIGNED not null DEFAULT 0,
             CONSTRAINT ' . _DB_PREFIX_ . 'image_slideshow_slide_ibfk_1
                 FOREIGN KEY (id_image_slideshow) REFERENCES ' . _DB_PREFIX_ . 'image_slideshow (id_image_slideshow)
                     ON DELETE CASCADE
@@ -54,12 +56,12 @@ class ImageSlideshowInstaller
         return $ok ? Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'image_slideshow_slide_lang` (
             `id_image_slideshow_slide` INT(10) UNSIGNED NOT NULL,
             `id_lang`            INT DEFAULT 1    NOT NULL,
-            `title`              varchar(255)     NOT NULL,
-            `description`        text             NULL,
-            `legend`             varchar(255)     NULL,
-            `url`                varchar(255)     NOT NULL,
-            `image`              varchar(255)     NOT NULL,
-            `image_mobile`       varchar(255)     NULL,
+            `title`              VARCHAR(255)     NULL,
+            `description`        TEXT             NULL,
+            `legend`             VARCHAR(255)     NULL,
+            `url`                VARCHAR(255)     NULL,
+            `image`              VARCHAR(255)     NOT NULL,
+            `image_mobile`       VARCHAR(255)     NULL,
             PRIMARY KEY (id_image_slideshow_slide, id_lang),
             CONSTRAINT ' . _DB_PREFIX_ . 'image_slideshow_slide_lang_ibfk_1
                 FOREIGN KEY (id_image_slideshow_slide) REFERENCES ' . _DB_PREFIX_ . 'image_slideshow_slide (id_image_slideshow_slide)
@@ -77,8 +79,9 @@ class ImageSlideshowInstaller
     /**
      * based on \PrestaShop\Module\BlockWishList\Database\Install::installTabs
      */
-    private function createTabs(TranslatorInterface $translator): bool
+    private function createTabs(): bool
     {
+        $translator = $this->module->getTranslator();
         $installTabCompleted = true;
         foreach ($this->adminControllers as $controller) {
             if (Tab::getIdFromClassName($controller['class_name']) || !$installTabCompleted) {
@@ -116,5 +119,44 @@ class ImageSlideshowInstaller
         }
 
         return $uninstallTabCompleted;
+    }
+
+    /**
+     * Adds samples
+     */
+    private function installSamples(): bool
+    {
+        /** @var PrestaShopBundle\Doctrine\DatabaseConnection $conn */
+        $conn = $this->module->get('doctrine.dbal.default_connection');
+
+        $conn->insert(_DB_PREFIX_ . 'image_slideshow', ['name' => 'Home', 'slug' => 'home']);
+        $slideshowId = $conn->lastInsertId();
+
+        $languages = Language::getLanguages(false);
+        for ($i = 1; $i <= 3; ++$i) {
+
+            $conn->insert(_DB_PREFIX_ . 'image_slideshow_slide', [
+                'id_image_slideshow' => $slideshowId,
+                'position' => $i - 1
+            ]);
+            $sildeId = $conn->lastInsertId();
+
+            $image = "sample-$i.jpg";
+            @copy(__DIR__ . "/$image", __DIR__ . "/../images/$image");
+
+            foreach ($languages as $language) {
+                $conn->insert(_DB_PREFIX_ . 'image_slideshow_slide_lang', [
+                    'id_image_slideshow_slide' => $sildeId,
+                    'id_lang' => $language['id_lang'],
+                    'title' => "Sample $i",
+                    'image' => $image,
+                    'url' => '/',
+                    'description' => '<h3>EXCEPTEUR OCCAECAT</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique in tortor et dignissim. Quisque non tempor leo. Maecenas egestas sem elit</p>'
+                ]);
+            }
+        }
+
+        return true;
     }
 }

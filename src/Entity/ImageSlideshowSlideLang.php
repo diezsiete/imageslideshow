@@ -24,7 +24,7 @@ class ImageSlideshowSlideLang
     private int $lang = 1;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $title = null;
 
@@ -39,7 +39,7 @@ class ImageSlideshowSlideLang
     private ?string $legend = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $url = null;
 

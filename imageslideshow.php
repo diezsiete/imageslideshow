@@ -30,7 +30,7 @@ class ImageSlideshow extends Module implements WidgetInterface
 
     public function install()
     {
-        return $this->installer()->install($this->getTranslator()) &&
+        return $this->installer()->install() &&
             parent::install() &&
             $this->registerHook('displayHeader') &&
             $this->registerHook('displayHome');
@@ -66,7 +66,7 @@ class ImageSlideshow extends Module implements WidgetInterface
 
     private function installer(): ImageSlideshowInstaller
     {
-        require_once _PS_MODULE_DIR_ . 'imageslideshow/ImageSlideshowInstaller.php';
-        return new ImageSlideshowInstaller();
+        require_once _PS_MODULE_DIR_ . 'imageslideshow/install/ImageSlideshowInstaller.php';
+        return new ImageSlideshowInstaller($this);
     }
 }
