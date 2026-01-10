@@ -1,0 +1,62 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/tinymce-test.css') }}" media="all">
+{% endblock %}
+
+{% block core_javascript %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/imageslideshow/public/migrate-mute.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body form-horizontal">
+      <div class="form-wrapper">
+      {#<textarea id="mytextarea"></textarea>#}
+
+      {#<div class="tinymce-classic-trans-wrapper">
+        <div class="tinymce-classic-trans-toolbar tox"></div>
+        <div class="tinymce-classic-trans-container" style="background-image: url('/modules/imageslideshow/images/banner-pedro.png')">
+          <textarea id="tinymce-classic-trans"></textarea>
+        </div>
+        <div class="tinymce-classic-trans-statusbar tox"></div>
+      </div>#}
+
+      {#<div class="demo-inline" style="background-image: url('/modules/imageslideshow/images/banner-pedro.png')">
+        <div class="tinymce-body">
+        </div>
+      </div>#}
+      <div class="tinymce-inline">
+        <div class="tinymce-inline-toolbar"></div>
+        <div class="demo-inline">
+          <img src="/modules/imageslideshow/images/banner-pedro.png" alt="">
+          <div class="tinymce-body">
+            <h1 style="padding-left: 400px;">&nbsp;</h1>
+            <h1 style="padding-left: 400px;">&nbsp;</h1>
+            <h1>&nbsp;</h1>
+            <h1 style="padding-left: 440px;"><span style="color: #ffffff; font-size: 36pt;">Obra reunida</span></h1>
+            <h2 style="padding-left: 440px;"><span style="color: #f1c40f;">Juan Rulfo</span></h2>
+            <p style="padding-left: 440px;"><span style="color: #ffffff;">El llano en llamas, Pedro Páramo y El gallo de oro.</span></p>
+          </div>
+        </div>
+      </div>
+
+
+      {#<div class="tinymce-editor-inline">
+        <div class="tinymce-editor-inline-toolbar"></div>
+        <div class="tinymce-editor-inline-container">
+          <img src="/modules/imageslideshow/images/banner-pedro.png" alt="">
+          <div class="tinymce-editor-inline-body"></div>
+        </div>
+      </div>#}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/imageslideshow/public/tinymce-test.js') }}"></script>
+{% endblock %}

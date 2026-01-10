@@ -137,4 +137,11 @@ class ImageSlideshowController extends ImageSlideshowAdminController
 
         return $this->redirectToRoute('imageslideshow_index');
     }
+
+    public function tinymceTestAction(): Response
+    {
+        return $this->render('@Modules/imageslideshow/views/templates/admin/tinymce-test.html.twig', [
+            'layoutTitle' => 'TinyMCE',
+        ]);
+    }
 }

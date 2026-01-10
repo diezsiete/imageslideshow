@@ -1,0 +1,77 @@
+// tinymce-classic-trans -----------------------------------------------------------------------------------------------
+.tinymce-classic-trans-container {
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  min-height: 400px;
+}
+
+#tinymce-classic-trans_ifr {
+  background: transparent;
+}
+
+// tinymce-inline ------------------------------------------------------------------------------------------------------
+.demo-inline {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  //vertical-align: top;
+  //background-repeat: no-repeat;
+  //background-position: top;
+  //background-size: cover;
+  //min-height: 400px;
+  position: relative;
+
+  *[contentEditable="true"] {
+    &:focus, &:hover {
+      outline: 2px solid #1976D2;
+    }
+  }
+
+  > img {
+    width: 100%;
+    height: auto;
+  }
+
+  .tinymce-body {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+
+// tinymce-editor-inline -----------------------------------------------------------------------------------------------
+.tinymce-editor-inline-toolbar {
+  .mce-tinymce {
+    display: block !important;
+    width: 100% !important;
+    .mce-container-body {
+      width: 100% !important;
+    }
+  }
+}
+.tinymce-editor-inline-container {
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+  //vertical-align: top;
+  //background-repeat: no-repeat;
+  //background-position: top;
+  //background-size: cover;
+  //min-height: 400px;
+  position: relative;
+
+  //*[contentEditable="true"] {
+  //  &:focus, &:hover {
+  //    outline: 2px solid #1976D2;
+  //  }
+  //}
+
+  > img {
+    width: 100%;
+    height: auto;
+  }
+
+  .tinymce-editor-inline-body {
+    position: absolute;
+    inset: 0;
+  }
+}
+
+

@@ -36,6 +36,13 @@ imageslideshow_toggle:
   requirements:
     idImageSlideshow: \d+
 
+imageslideshow_tinymce_test:
+  path: /imageslideshow/tinymce-test
+  methods: [ GET ]
+  defaults:
+    _controller: PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController::tinymceTestAction
+    _legacy_controller: ImageSlideshowController
+
 # imageslideshow_slides ------------------------------------------------------------------------------------------------
 imageslideshow_slides:
   path: /imageslideshow/{idImageSlideshow}/slides
