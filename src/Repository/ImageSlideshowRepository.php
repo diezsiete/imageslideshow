@@ -41,7 +41,6 @@ class ImageSlideshowRepository extends ServiceEntityRepository implements FormDa
         return [];
     }
 
-
     public function findWithSlides(int|string $id): ?ImageSlideshow
     {
         return $this->createQueryBuilder('ims')
@@ -52,6 +51,19 @@ class ImageSlideshowRepository extends ServiceEntityRepository implements FormDa
             ->orderBy('imss.position')
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findActive(?string $slug = null): ?ImageSlideshow
+    {
+        $qb = $this->createQueryBuilder('ims')
+            ->where('ims.active = 1')
+            ->setMaxResults(1);
+        if ($slug) {
+            $qb->andWhere('ims.slug = :slug')->setParameter('slug', $slug);
+        } else {
+            $qb->orderBy('ims.id', 'DESC');
+        }
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     private function getById(int|string $id, ?string $field = null, int $hydrationMode = AbstractQuery::HYDRATE_OBJECT): mixed

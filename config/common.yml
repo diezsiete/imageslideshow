@@ -1,0 +1,7 @@
+services:
+  _defaults:
+    public: true
+
+  PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository:
+    arguments: [ '@doctrine' ]
+    tags: [ doctrine.repository_service ]

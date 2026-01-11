@@ -1,5 +1,7 @@
-services:
+imports:
+  - { resource: ./common.yml }
 
+services:
   PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController:
     autoconfigure: true
     autowire: true
@@ -43,10 +45,6 @@ services:
       - '@doctrine.dbal.default_connection'
       - '%database_prefix%'
       - '@prestashop.core.query.doctrine_search_criteria_applicator'
-
-  PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository:
-    arguments: [ '@doctrine' ]
-    tags: [ doctrine.repository_service ]
 
   PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository:
     arguments: [ '@doctrine' ]

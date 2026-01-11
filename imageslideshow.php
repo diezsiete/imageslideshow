@@ -4,10 +4,12 @@ if (!defined('_PS_VERSION_')) {
     exit;
 }
 
+use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\PrestaShop\Core\Module\WidgetInterface;
 
 class ImageSlideshow extends Module implements WidgetInterface
 {
+    protected string $templateFile = 'module:imageslideshow/views/templates/hook/imageslideshow.tpl';
 
     public function __construct()
     {
@@ -47,21 +49,54 @@ class ImageSlideshow extends Module implements WidgetInterface
         Tools::redirectAdmin($route);
     }
 
-    public function hookdisplayHeader(): void
+    public function hookDisplayHeader(): void
     {
-        // $this->context->controller->registerStylesheet('modules-homeslider', 'modules/' . $this->name . '/css/homeslider.css', ['media' => 'all', 'priority' => 150]);
-        // $this->context->controller->registerJavascript('modules-responsiveslides', 'modules/' . $this->name . '/js/responsiveslides.min.js', ['position' => 'bottom', 'priority' => 150]);
-        // $this->context->controller->registerJavascript('modules-homeslider', 'modules/' . $this->name . '/js/homeslider.js', ['position' => 'bottom', 'priority' => 150]);
+        $this->context->controller->registerStylesheet(
+            $this->name, "modules/$this->name/public/front/imageslideshow.css", ['media' => 'all', 'priority' => 150]
+        );
+        $this->context->controller->registerJavascript(
+            $this->name, "modules/$this->name/public/front/imageslideshow.js", ['position' => 'bottom', 'priority' => 150]
+        );
     }
 
-    public function renderWidget($hookName, array $configuration)
+    public function renderWidget($hookName, array $configuration): string
     {
+        if (!$this->isCached($this->templateFile, $this->getCacheId())) {
+            $this->smarty->assign($this->getWidgetVariables($hookName, $configuration));
+        }
 
+        return $this->fetch($this->templateFile, $this->getCacheId());
     }
 
-    public function getWidgetVariables($hookName, array $configuration)
+    public function getWidgetVariables($hookName, array $configuration): array
     {
+        $slideshow = ['slides' => []];
+        /** @var ImageSlideshowRepository $repo */
+        $repo = $this->get(ImageSlideshowRepository::class);
+        if ($slideshowEntity = $repo->findActive($configuration['slug'] ?? null)) {
+            $slideshow += ['id' => $slideshowEntity->getId(), 'slug' => $slideshowEntity->getSlug()];
+            foreach ($slideshowEntity->getActiveSlides() as $slideEntity) {
+                $slide = [
+                    'id' => $slideEntity->getId(),
+                    'title' => $slideEntity->getTitle(),
+                    'description' => '',
+                    'legend' => $slideEntity->getLang()->getLegend(),
+                    // 'sizes' => @getimagesize($slideEntity->getImagePath()),
+                    'url' => $slideEntity->getLang()->getUrl(),
+                    'target_blank' => $slideEntity->isTargetBlank(),
+                    'image_url' => $slideEntity->getImagePath(),
+                ];
+                // if (isset($slide['sizes'][3]) && $slide['sizes'][3]) {
+                //     $slide['size'] = $slide['sizes'][3];
+                // }
+                if ($description = $slideEntity->getLang()->getDescription()) {
+                    $slide['description'] = html_entity_decode($description);
+                }
+                $slideshow['slides'][] = $slide;
+            }
+        }
 
+        return ['slideshow' => $slideshow];
     }
 
     private function installer(): ImageSlideshowInstaller
