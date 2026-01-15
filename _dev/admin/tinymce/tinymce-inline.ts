@@ -26,7 +26,7 @@ export default function() {
     license_key: 'gpl',
     base_url: '/modules/imageslideshow/public/tinymce', // Important: points to where assets were copied
     suffix: '.min',
-    selector: '.tinymce-body',
+    selector: '.slide-content',
     menubar: false,
     inline: true,
     plugins: [
@@ -43,7 +43,8 @@ export default function() {
     // valid_styles: {
     //   '*': 'font-size,font-family,color,text-decoration,text-align'
     // },
-    fixed_toolbar_container: '.tinymce-inline-toolbar'
+    fixed_toolbar_container: '.tinymce-inline-toolbar',
+    content_css: '/modules/imageslideshow/public/admin/slide-content.css'
   };
 
   // tinymce.init(headingConfig);

@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 
 class WebpackConfig {
   constructor(mode = 'development') {
@@ -21,6 +22,7 @@ class WebpackConfig {
         'tinymce-test': './_dev/admin/tinymce-test.ts',
         'upsert-slideshow': './_dev/admin/upsert-slideshow.ts',
         'upsert-slide': './_dev/admin/upsert-slide.ts',
+        'admin/slide-content': './_dev/front/slide-content.scss',
         'front/imageslideshow': './_dev/front/imageslideshow.ts',
       },
       mode: this.mode,
@@ -132,6 +134,8 @@ class WebpackConfig {
         },
       ]
     }))
+
+    plugins.push(new RemoveEmptyScriptsPlugin());
 
     return plugins;
   }

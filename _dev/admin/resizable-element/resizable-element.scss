@@ -1,0 +1,49 @@
+.resizable-element {
+  position: absolute;
+  inset: 0;
+
+  &.active {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #667eea;
+    .handle {
+      display: block;
+    }
+  }
+
+  .handle {
+    position: absolute;
+    background: #667eea;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 10;
+
+    &.left, &.right {
+      width: 12px;
+      height: 60px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: ew-resize;
+    }
+    &.left {
+      left: -16px;
+    }
+    &.right {
+      right: -16px;
+    }
+
+    &.top, &.bottom {
+      width: 60px;
+      height: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: ns-resize;
+    }
+
+    &.top {
+      top: -16px;
+    }
+    &.bottom {
+      bottom: -16px;
+    }
+  }
+}

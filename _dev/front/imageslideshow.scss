@@ -1,9 +1,9 @@
-.imageslideshow-container {
+.imageslideshow {
   margin: 0;
   position: relative;
 
 
-  .imageslideshow {
+  .slide-container {
     position: relative;
     width: 100%;
     height: auto;
@@ -26,6 +26,11 @@
         width: 100% !important;
         visibility: visible;
       }
+
+
+      img {
+        width: 100%;
+      }
     }
   }
 
@@ -36,11 +41,9 @@
       display: block;
     }
 
-    .description {
+    .slide-content {
       position: absolute;
-      left: 0;
-      top: 50%;
-      right: 0;
+      inset: 0;
       z-index: 8;
     }
 
