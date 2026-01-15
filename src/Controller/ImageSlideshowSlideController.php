@@ -64,4 +64,41 @@ class ImageSlideshowSlideController extends ImageSlideshowAdminController
             'layoutTitle' => $this->trans('Create Slide', domain: 'Modules.Imageslideshow.Imageslideshow')
         ]);
     }
+
+    public function editAction(
+        Request              $request,
+        int                  $idImageSlideshow,
+        int                  $idImageSlideshowSlide,
+        #[Autowire(service: 'prestashop.module.imageslideshow.form.builder.slide')]
+        FormBuilderInterface $formBuilder,
+        #[Autowire(service: 'prestashop.module.imageslideshow.form.handler.slide')]
+        FormHandlerInterface $formHandler
+    ): Response
+    {
+        if (!$this->slideRepo->exists($idImageSlideshowSlide, $idImageSlideshow)) {
+            $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
+            return $this->redirectToRoute('imageslideshow_index');
+        }
+
+        $form = $formBuilder->getFormFor($idImageSlideshowSlide)->handleRequest($request);
+        try {
+            $result = $formHandler->handleFor($idImageSlideshowSlide, $form);
+
+            if ($result->isSubmitted() && $result->isValid()) {
+                // TODO $this->widgetWarmer->slideshow($this->imageSlideshowRepo->getSlug($idImageSlideshow));
+                $this->addFlash('success', $this->trans('Successful update', [], 'Admin.Notifications.Success'));
+                return $this->redirectToRoute('imageslideshow_slides', ['idImageSlideshow' => $idImageSlideshow]);
+            }
+        } catch (Throwable $e) {
+            $this->addFlash('error', $e->getMessage());
+        }
+
+        return $this->render('@Modules/imageslideshow/views/templates/admin/upsert-slide.html.twig', [
+            'form' => $form->createView(),
+            'idImageSlideshow' => $idImageSlideshow,
+            'image' => null,
+            // TODO translate spanish : Editar diapositiva
+            'layoutTitle' => $this->trans('Edit Slide', domain: 'Modules.Imageslideshow.Imageslideshow')
+        ]);
+    }
 }

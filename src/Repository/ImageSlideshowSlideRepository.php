@@ -4,6 +4,7 @@ namespace PrestaShop\Module\ImageSlideshow\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshow;
 use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlide;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataProvider\FormDataProviderInterface;
@@ -43,15 +44,14 @@ class ImageSlideshowSlideRepository extends ServiceEntityRepository implements F
         return [];
     }
 
+    public function exists(int|string $id, int|null|string $idSlideshow = null): bool
+    {
+        return (bool) $this->getById($id, $idSlideshow, 'id');
+    }
+
     public function findSlide(int|string $id, int|null|string $idSlideshow = null): ?ImageSlideshowSlide
     {
-        $qb = $this->createQueryBuilder('ss')
-            ->where('ss.id = :id')->setParameter('id', $id);
-        if ($idSlideshow) {
-            $qb->join('ss.slideshow', 's')->andWhere('s.id = :idSlideshow')->setParameter('idSlideshow', $idSlideshow);
-        }
-        /** @noinspection PhpUnhandledExceptionInspection */
-        return $qb->getQuery()->getOneOrNullResult();
+        return $this->getById($id, $idSlideshow);
     }
 
     /**
@@ -66,5 +66,19 @@ class ImageSlideshowSlideRepository extends ServiceEntityRepository implements F
             $qb->orderBy('ss.position', $orderByPosition);
         }
         return $qb->getQuery()->getResult();
+    }
+
+    private function getById(int|string $id, int|null|string $idSlideshow = null, ?string $field = null): mixed
+    {
+        $qb = $this->createQueryBuilder('ss')
+            ->where('ss.id = :id')->setParameter('id', $id);
+        if ($idSlideshow) {
+            $qb->join('ss.slideshow', 's')->andWhere('s.id = :idSlideshow')->setParameter('idSlideshow', $idSlideshow);
+        }
+        if ($field) {
+            $qb->select("ss.$field");
+        }
+        /** @noinspection PhpUnhandledExceptionInspection */
+        return $qb->getQuery()->getOneOrNullResult($field ? AbstractQuery::HYDRATE_SINGLE_SCALAR : null);
     }
 }
