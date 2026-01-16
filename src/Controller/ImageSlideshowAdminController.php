@@ -3,6 +3,8 @@
 namespace PrestaShop\Module\ImageSlideshow\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshow;
+use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlide;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository;
 use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
@@ -40,6 +42,25 @@ abstract class ImageSlideshowAdminController extends PrestaShopAdminController
                 $this->em->remove($entity);
                 $this->em->flush();
                 $this->addFlash('success', $this->trans('Successful deletion.', domain: 'Admin.Notifications.Success'));
+                return true;
+            } else {
+                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
+            }
+        } catch (Throwable $exception) {
+            $this->addFlash('error', $exception->getMessage());
+        }
+        return false;
+    }
+
+    public function toggleEntity(ImageSlideshow|ImageSlideshowSlide|null $entity): bool
+    {
+        try {
+            if ($entity) {
+                $entity->toggle();
+                $this->em->flush();
+                $this->addFlash('success', $this->trans(
+                    'The status has been successfully updated.', domain: 'Admin.Notifications.Success'
+                ));
                 return true;
             } else {
                 $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));

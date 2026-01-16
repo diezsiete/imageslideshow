@@ -107,23 +107,9 @@ class ImageSlideshowController extends ImageSlideshowAdminController
 
     public function toggleStatusAction(int $idImageSlideshow): RedirectResponse
     {
-        try {
-            /** @var ImageSlideshow $entity */
-            $entity = $this->imageSlideshowRepo->find($idImageSlideshow);
-            if ($entity) {
-                $entity->toggle();
-                $this->em->flush();
-                $this->addFlash('success', $this->trans(
-                    'The status has been successfully updated.', domain: 'Admin.Notifications.Success'
-                ));
-            } else {
-                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
-            }
-        } catch (Throwable $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            $entity = null;
+        if ($this->toggleEntity($this->imageSlideshowRepo->find($idImageSlideshow))) {
+            // TODO $this->widgetWarmer->slideshow($this->imageSlideshowRepo->getSlug($idImageSlideshow));
         }
-
         return $this->redirectToRoute('imageslideshow_index');
     }
 

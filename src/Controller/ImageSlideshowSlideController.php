@@ -114,4 +114,12 @@ class ImageSlideshowSlideController extends ImageSlideshowAdminController
         return $this->redirectToRoute('imageslideshow_slides', ['idImageSlideshow' => $idImageSlideshow]);
     }
 
+    public function toggleStatusAction(int $idImageSlideshow, int $idImageSlideshowSlide): RedirectResponse
+    {
+        if ($this->toggleEntity($this->slideRepo->findSlide($idImageSlideshowSlide, $idImageSlideshow))) {
+            // TODO $this->widgetWarmer->slideshow($this->imageSlideshowRepo->getSlug($idImageSlideshow));
+        }
+        return $this->redirectToRoute('imageslideshow_slides', ['idImageSlideshow' => $idImageSlideshow]);
+    }
+
 }
