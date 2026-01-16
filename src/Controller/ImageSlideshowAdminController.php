@@ -6,6 +6,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowRepository;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository;
 use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @property EntityManagerInterface em
@@ -26,5 +29,37 @@ abstract class ImageSlideshowAdminController extends PrestaShopAdminController
     public function __get(string $name)
     {
         return $this->container->get($name);
+    }
+
+    protected function getFirstErrorFromForm(FormInterface $form): ?string
+    {
+        foreach ($form->all() as $childForm) {
+            if ($childForm instanceof FormInterface) {
+                foreach($childForm->getErrors() as $error) {
+                    return $error->getMessage();
+                }
+            }
+        }
+        foreach($form->getErrors() as $error) {
+            return $error->getMessage();
+        }
+        return null;
+    }
+
+    protected function renderStream($callbackStream, $contentType = 'application/pdf', $dispositionAttachment = null): StreamedResponse
+    {
+        $response = new StreamedResponse(function() use ($callbackStream){
+            $outputStream = fopen('php://output', 'wb');
+            $fileStream = $callbackStream();
+            stream_copy_to_stream($fileStream, $outputStream);
+        });
+        if ($contentType) {
+            $response->headers->set('Content-Type', $contentType);
+        }
+        if ($dispositionAttachment) {
+            $disposition = HeaderUtils::makeDisposition(HeaderUtils::DISPOSITION_ATTACHMENT, $dispositionAttachment);
+            $response->headers->set('Content-Disposition', $disposition);
+        }
+        return $response;
     }
 }

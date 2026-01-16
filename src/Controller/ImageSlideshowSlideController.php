@@ -2,6 +2,7 @@
 
 namespace PrestaShop\Module\ImageSlideshow\Controller;
 
+use PrestaShop\Module\ImageSlideshow\Service\ImageManager;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandlerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -42,7 +43,7 @@ class ImageSlideshowSlideController extends ImageSlideshowAdminController
             return $this->redirectToRoute('imageslideshow_index');
         }
 
-        $form = $formBuilder->getForm()->handleRequest($request);
+        $form = $formBuilder->getForm(['idImageSlideshow' => $idImageSlideshow])->handleRequest($request);
 
         try {
             $result = $formHandler->handle($form);

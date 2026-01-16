@@ -2,6 +2,11 @@ imports:
   - { resource: ./common.yml }
 
 services:
+
+  PrestaShop\Module\ImageSlideshow\Controller\ImageController:
+    autoconfigure: true
+    autowire: true
+
   PrestaShop\Module\ImageSlideshow\Controller\ImageSlideshowController:
     autoconfigure: true
     autowire: true
@@ -12,6 +17,9 @@ services:
 
   PrestaShop\Module\ImageSlideshow\Form\FileUploadType:
     arguments: [ '@router' ]
+    tags: [ form.type ]
+
+  PrestaShop\Module\ImageSlideshow\Form\ImageTempType:
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\SlideshowType:
@@ -34,7 +42,7 @@ services:
     arguments:
       - '@PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository'
       - '@doctrine.orm.default_entity_manager'
-      - '@PrestaShop\Module\ImageSlideshow\Service\ImageTemp'
+      - '@PrestaShop\Module\ImageSlideshow\Service\ImageManager'
 
   PrestaShop\Module\ImageSlideshow\Grid\ImageSlideshowGridDefinitionFactory:
     arguments: [ '@translator' ]
@@ -50,7 +58,7 @@ services:
     arguments: [ '@doctrine' ]
     tags: [ doctrine.repository_service ]
 
-  PrestaShop\Module\ImageSlideshow\Service\ImageTemp: ~
+  PrestaShop\Module\ImageSlideshow\Service\ImageManager: ~
 
   prestashop.module.imageslideshow.form.builder.slideshow:
     class: PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilder

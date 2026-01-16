@@ -11,8 +11,10 @@
   "author": "diezsiete",
   "license": "ISC",
   "devDependencies": {
+    "@types/dropzone": "^5.7.9",
     "copy-webpack-plugin": "^13.0.1",
     "css-loader": "^7.1.2",
+    "dropzone": "^5.9.3",
     "esbuild-loader": "^4.4.1",
     "mini-css-extract-plugin": "^2.9.4",
     "postcss-loader": "^8.2.0",

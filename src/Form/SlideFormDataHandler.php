@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshow;
 use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlide;
 use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository;
-use PrestaShop\Module\ImageSlideshow\Service\ImageTemp;
+use PrestaShop\Module\ImageSlideshow\Service\ImageManager;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\DataHandler\FormDataHandlerInterface;
 
 class SlideFormDataHandler implements FormDataHandlerInterface
@@ -14,20 +14,19 @@ class SlideFormDataHandler implements FormDataHandlerInterface
     public function __construct(
         private readonly ImageSlideshowSlideRepository $slideRepo,
         private readonly EntityManagerInterface        $em,
-        private readonly ImageTemp                     $imageTemp,
+        private readonly ImageManager                  $imageManager,
     ){}
 
     public function create(array $data)
     {
-        /** @var ImageSlideshow $slideshow */
-        $slideshow = $data['slideshow'];
+        $idImageSlideshow = $data['idImageSlideshow'];
         $position = 0;
         $slide = (new ImageSlideshowSlide())
-            ->setSlideshow($slideshow)
+            ->setSlideshow($this->em->getReference(ImageSlideshow::class, $idImageSlideshow))
             ->setPosition($position);
         $slide = $this->fillSlide($slide, $data);
 
-        foreach ($this->slideRepo->findSlides($slideshow) as $sibling) {
+        foreach ($this->slideRepo->findSlides($idImageSlideshow) as $sibling) {
             $position++;
             $sibling->setPosition($position);
         }
@@ -69,9 +68,9 @@ class SlideFormDataHandler implements FormDataHandlerInterface
 
     private function fillSlideImage(?string $dataImage, ?string $slideImage): ?string
     {
-        if ($this->imageTemp->getImageInTemp($dataImage) && $slideImage) {
-            $this->imageTemp->removeDefinitiveImage(ImageSlideshowSlide::getImagesPath(), $slideImage);
+        if ($this->imageManager->getTempImageName($dataImage) && $slideImage) {
+            $this->imageManager->removeDefinitiveImage(ImageManager::getImagesPath(), $slideImage);
         }
-        return $this->imageTemp->moveTempImage($dataImage, ImageSlideshowSlide::getImagesPath());
+        return $this->imageManager->moveTempImage($dataImage, ImageManager::getImagesPath());
     }
 }

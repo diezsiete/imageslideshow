@@ -6,6 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
+use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Router;
 
@@ -34,6 +35,8 @@ class FileUploadType extends AbstractType
             'dir_final' => '',
             'upload_route' => 'imageslideshow_image_upload_temp',
         ]);
+
+        $resolver->setNormalizer('dir_final', fn (Options $options, string $value) => ltrim($value, '/'));
     }
 
     public function getBlockPrefix(): string

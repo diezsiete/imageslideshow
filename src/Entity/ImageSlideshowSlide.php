@@ -5,6 +5,7 @@ namespace PrestaShop\Module\ImageSlideshow\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use PrestaShop\Module\ImageSlideshow\Service\ImageManager;
 
 /**
  * @ORM\Table()
@@ -45,11 +46,6 @@ class ImageSlideshowSlide
      * @ORM\OneToMany(mappedBy="slide", targetEntity="PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlideLang", cascade={"persist", "remove"}, fetch="EAGER", orphanRemoval=true, indexBy="lang")
      */
     private Collection|array $lang;
-
-    public static function getImagesPath(): string
-    {
-        return _MODULE_DIR_ . 'imageslideshow/images';
-    }
 
     public function __construct()
     {
@@ -108,14 +104,14 @@ class ImageSlideshowSlide
         return $this;
     }
 
-    public function getImagePath(): string
+    public function getImageUrl(): string
     {
-        return static::getImagesPath() . '/' . $this->getLang()->getImage();
+        return ImageManager::getImagesDir() . '/' . $this->getLang()->getImage();
     }
-    public function getImageMobilePath(): ?string
+    public function getImageMobileUrl(): ?string
     {
         return ($imageMobile = $this->getLang()->getImageMobile())
-            ? static::getImagesPath() . "/$imageMobile"
+            ? ImageManager::getImagesDir() . "/$imageMobile"
             : null;
     }
 

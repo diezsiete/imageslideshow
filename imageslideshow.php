@@ -84,7 +84,7 @@ class ImageSlideshow extends Module implements WidgetInterface
                     // 'sizes' => @getimagesize($slideEntity->getImagePath()),
                     'url' => $slideEntity->getLang()->getUrl(),
                     'target_blank' => $slideEntity->isTargetBlank(),
-                    'image_url' => $slideEntity->getImagePath(),
+                    'image_url' => $slideEntity->getImageUrl(),
                 ];
                 // if (isset($slide['sizes'][3]) && $slide['sizes'][3]) {
                 //     $slide['size'] = $slide['sizes'][3];

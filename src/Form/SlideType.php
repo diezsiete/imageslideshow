@@ -2,7 +2,7 @@
 
 namespace PrestaShop\Module\ImageSlideshow\Form;
 
-use PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlide;
+use PrestaShop\Module\ImageSlideshow\Service\ImageManager;
 use PrestaShop\PrestaShop\Core\ConstraintValidator\Constraints\CleanHtml;
 use PrestaShopBundle\Form\Admin\Type\FormattedTextareaType;
 use PrestaShopBundle\Form\Admin\Type\SwitchType;
@@ -35,32 +35,32 @@ class SlideType extends TranslatorAwareType
                 'constraints' => [
                     new Assert\NotNull(['message' => 'Imagen obligatoria']),
                 ],
-                'dir_final' => ImageSlideshowSlide::getImagesPath(),
+                'dir_final' => ImageManager::getImagesDir(),
                 'label' => $this->trans('Image', 'Admin.Global'),
             ])
             ->add('imageMobile', FileUploadType::class, [
-                'dir_final' => ImageSlideshowSlide::getImagesPath(),
+                'dir_final' => ImageManager::getImagesDir(),
                 // TODO translate spanish: Imagen movil
                 'label' => $this->trans('Image mobile', 'Modules.Imageslideshow.Imageslideshow'),
                 'required' => false,
             ])
             ->add('title', FormType\TextType::class, [
                 'constraints' => [
-                    new Assert\NotBlank(),
                     new Assert\Length([
                         'max' => 255,
                     ]),
                 ],
-                'label' => 'Título'
+                'label' => 'Título',
+                'required' => false,
             ])
             ->add('url', FormType\TextType::class, [
                 'constraints' => [
-                    new Assert\NotBlank(),
                     new Assert\Length([
                         'max' => 255,
                     ]),
                 ],
-                'label' => 'URL'
+                'label' => 'URL',
+                'required' => false,
             ])
 
             ->add('legend', FormType\TextType::class, [

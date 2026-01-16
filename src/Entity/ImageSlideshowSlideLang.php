@@ -78,7 +78,7 @@ class ImageSlideshowSlideLang
     {
         return $this->title;
     }
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
         return $this;
@@ -108,7 +108,7 @@ class ImageSlideshowSlideLang
     {
         return $this->url;
     }
-    public function setUrl(string $url): static
+    public function setUrl(?string $url): static
     {
         $this->url = $url;
         return $this;

@@ -3,7 +3,10 @@
  *         src/PrestaShopBundle/Resources/views/Admin/Sell/Catalog/Manufacturer/Blocks/form.html.twig
  * #}
 
-{% form_theme form '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig' %}
+{% form_theme form with [
+  '@PrestaShop/Admin/TwigTemplateForm/prestashop_ui_kit.html.twig',
+  '@Modules/imageslideshow/views/templates/admin/_form-widgets.html.twig'
+] %}
 {% import '@PrestaShop/Admin/macros.html.twig' as ps %}
 {% from '@Modules/imageslideshow/views/templates/admin/_macros.html.twig' import form_image_row %}
 
