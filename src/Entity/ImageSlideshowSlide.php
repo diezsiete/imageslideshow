@@ -42,6 +42,11 @@ class ImageSlideshowSlide
     private bool $targetBlank = false;
 
     /**
+     * @ORM\Column(type="string", length=23)
+     */
+    private string $inset = '0';
+
+    /**
      * @var ImageSlideshowSlideLang[]|Collection
      * @ORM\OneToMany(mappedBy="slide", targetEntity="PrestaShop\Module\ImageSlideshow\Entity\ImageSlideshowSlideLang", cascade={"persist", "remove"}, fetch="EAGER", orphanRemoval=true, indexBy="lang")
      */
@@ -118,6 +123,16 @@ class ImageSlideshowSlide
     public function getTitle(): ?string
     {
         return $this->getLang()->getTitle();
+    }
+
+    public function getInset(): string
+    {
+        return $this->inset;
+    }
+    public function setInset(string $inset): static
+    {
+        $this->inset = $inset;
+        return $this;
     }
 
     public function getLang(bool|int $create = true): ImageSlideshowSlideLang

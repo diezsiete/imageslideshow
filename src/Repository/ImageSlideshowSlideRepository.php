@@ -29,6 +29,7 @@ class ImageSlideshowSlideRepository extends ServiceEntityRepository implements F
             'id' => $slide->getId(),
             'active' => $slide->isActive(),
             'targetBlank' => $slide->isTargetBlank(),
+            'inset' => $slide->getInset(),
             'title' => $slide->getLang()->getTitle(),
             'description' => $slide->getLang()->getDescription(),
             'legend' => $slide->getLang()->getLegend(),

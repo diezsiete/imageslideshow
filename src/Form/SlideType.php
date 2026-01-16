@@ -90,6 +90,7 @@ class SlideType extends TranslatorAwareType
                 'required' => false,
                 'help' => 'Hacer que el link abra en ventana aparte'
             ])
+            ->add('inset', FormType\HiddenType::class)
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {

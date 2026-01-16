@@ -42,13 +42,14 @@ class ImageSlideshowInstaller
             `active`       TINYINT(1) UNSIGNED NOT NULL DEFAULT 1
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8mb4;');
 
-        $ok = $ok ? Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'image_slideshow_slide` (
+        $ok = $ok ? Db::getInstance()->execute('CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . "image_slideshow_slide` (
             `id_image_slideshow_slide` INT(10) UNSIGNED    NOT NULL AUTO_INCREMENT PRIMARY KEY,
             `id_image_slideshow`       INT(10) UNSIGNED    NOT NULL,
             `position`           SMALLINT UNSIGNED   NOT NULL DEFAULT 0,
             `active`             TINYINT(1) UNSIGNED NOT NULL DEFAULT 1,
-            `target_blank`       TINYINT(1) UNSIGNED not null DEFAULT 0,
-            CONSTRAINT ' . _DB_PREFIX_ . 'image_slideshow_slide_ibfk_1
+            `target_blank`       TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+            `inset`              VARCHAR(23)         NOT NULL DEFAULT '0',
+            CONSTRAINT " . _DB_PREFIX_ . 'image_slideshow_slide_ibfk_1
                 FOREIGN KEY (id_image_slideshow) REFERENCES ' . _DB_PREFIX_ . 'image_slideshow (id_image_slideshow)
                     ON DELETE CASCADE
         ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8mb4;') : $ok;
