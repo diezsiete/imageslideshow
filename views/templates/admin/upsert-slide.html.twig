@@ -1,17 +1,8 @@
-{# **
- * basedon src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Cms/add.html.twig
- * #}
-
-{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% extends '@Modules/imageslideshow/views/templates/admin/layout.html.twig' %}
 
 {% block stylesheets %}
   {{ parent() }}
   <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/upsert-slide.css') }}" media="all">
-{% endblock %}
-
-{% block core_javascript %}
-  {{ parent() }}
-  <script src="{{ asset('../modules/imageslideshow/public/migrate-mute.js') }}"></script>
 {% endblock %}
 
 {% block content %}

@@ -8,7 +8,9 @@ use PrestaShop\Module\ImageSlideshow\Repository\ImageSlideshowSlideRepository;
 use PrestaShopBundle\Controller\Admin\PrestaShopAdminController;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Throwable;
 
 /**
  * @property EntityManagerInterface em
@@ -29,6 +31,23 @@ abstract class ImageSlideshowAdminController extends PrestaShopAdminController
     public function __get(string $name)
     {
         return $this->container->get($name);
+    }
+
+    public function deleteEntity(object|null $entity): bool
+    {
+        try {
+            if ($entity) {
+                $this->em->remove($entity);
+                $this->em->flush();
+                $this->addFlash('success', $this->trans('Successful deletion.', domain: 'Admin.Notifications.Success'));
+                return true;
+            } else {
+                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
+            }
+        } catch (Throwable $exception) {
+            $this->addFlash('error', $exception->getMessage());
+        }
+        return false;
     }
 
     protected function getFirstErrorFromForm(FormInterface $form): ?string

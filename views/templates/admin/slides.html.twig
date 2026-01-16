@@ -1,4 +1,4 @@
-{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% extends '@Modules/imageslideshow/views/templates/admin/layout.html.twig' %}
 
 {# TODO translate spanish Agregar diapositiva #}
 {% set layoutHeaderToolbarBtn = {
@@ -9,10 +9,10 @@
   },
 } %}
 
-{#{% block stylesheets %}
+{% block stylesheets %}
   {{ parent() }}
-  {{ she_entry_link_tag('slideshow-slides') }}
-{% endblock %}#}
+  <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/admin/slides.css') }}" media="all">
+{% endblock %}
 
 {% block content %}
   <div class="row">
@@ -87,7 +87,7 @@
   </div>
 {% endblock %}
 
-{#{% block javascripts %}
+{% block javascripts %}
   {{ parent() }}
-  {{ she_entry_script_tag('slideshow-slides') }}
-{% endblock %}#}
+  <script src="{{ asset('../modules/imageslideshow/public/admin/slides.js') }}"></script>
+{% endblock %}

@@ -99,20 +99,9 @@ class ImageSlideshowController extends ImageSlideshowAdminController
 
     public function deleteAction(int $idImageSlideshow): RedirectResponse
     {
-        try {
-            $entity = $this->imageSlideshowRepo->find($idImageSlideshow);
-            if ($entity) {
-                $this->em->remove($entity);
-                $this->em->flush();
-                $this->addFlash('success', $this->trans('Successful deletion.', domain: 'Admin.Notifications.Success'));
-            } else {
-                $this->addFlash('error', $this->trans('The object cannot be loaded (or found).', domain: 'Admin.Notifications.Error'));
-            }
-        } catch (Throwable $exception) {
-            $this->addFlash('error', $exception->getMessage());
-            $entity = null;
+        if ($this->deleteEntity($this->imageSlideshowRepo->find($idImageSlideshow))) {
+            // TODO $this->widgetWarmer->slideshow($this->imageSlideshowRepo->getSlug($idImageSlideshow));
         }
-
         return $this->redirectToRoute('imageslideshow_index');
     }
 

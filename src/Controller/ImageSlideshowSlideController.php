@@ -6,6 +6,7 @@ use PrestaShop\Module\ImageSlideshow\Service\ImageManager;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Builder\FormBuilderInterface;
 use PrestaShop\PrestaShop\Core\Form\IdentifiableObject\Handler\FormHandlerInterface;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
@@ -102,4 +103,15 @@ class ImageSlideshowSlideController extends ImageSlideshowAdminController
             'layoutTitle' => $this->trans('Edit Slide', domain: 'Modules.Imageslideshow.Imageslideshow')
         ]);
     }
+
+    public function deleteAction(int $idImageSlideshow, int $idImageSlideshowSlide, ImageManager $imageManager): RedirectResponse
+    {
+        $slide = $this->slideRepo->findSlide($idImageSlideshowSlide, $idImageSlideshow);
+        if ($this->deleteEntity($slide)) {
+            $imageManager->removeDefinitiveImage(ImageManager::getImagesPath(), $slide->getLang()->getImage());
+            // TODO $this->widgetWarmer->slideshow($this->imageSlideshowRepo->getSlug($idImageSlideshow));
+        }
+        return $this->redirectToRoute('imageslideshow_slides', ['idImageSlideshow' => $idImageSlideshow]);
+    }
+
 }

@@ -1,0 +1,8 @@
+{% extends '@PrestaShop/Admin/layout.html.twig' %}
+
+
+{# TODO apply only in development to reduce inspector console noise #}
+{% block core_javascript %}
+  {{ parent() }}
+  <script src="{{ asset('../modules/imageslideshow/public/admin/migrate-mute.js') }}"></script>
+{% endblock %}
