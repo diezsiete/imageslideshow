@@ -21,7 +21,7 @@ export default class ResizableElement {
 
     if (this.resizable && this.container) {
 
-      this.inset = this.getInitialInset(this.resizable);
+      this.inset = this.deserializeInset(this.resizable.style.inset);
 
       const resizableElement = this.resizable;
       const containerElement = this.container;
@@ -66,7 +66,7 @@ export default class ResizableElement {
             break;
         }
 
-        this.updateInset();
+        this.setStyleInset();
       });
 
       document.addEventListener('mouseup', () => {
@@ -78,7 +78,7 @@ export default class ResizableElement {
         this.currentHandle = undefined;
       });
 
-      this.updateInset();
+      this.setStyleInset();
     }
   }
 
@@ -86,26 +86,26 @@ export default class ResizableElement {
     this.insetStyleChangeListeners.push(listener);
   }
 
-  setStyleInset(styleInset: string) {
-    if (this.resizable) {
-      this.resizable.style.inset = styleInset;
-    }
+  setInset(inset: string) {
+    this.inset = this.deserializeInset(inset);
+    this.setStyleInset();
   }
 
-  private updateInset() {
-    this.setStyleInset(`${this.inset.top}% ${this.inset.right}% ${this.inset.bottom}% ${this.inset.left}%`);
+  private setStyleInset() {
+    if (this.resizable) {
+      this.resizable.style.inset = `${this.inset.top}% ${this.inset.right}% ${this.inset.bottom}% ${this.inset.left}%`;
+    }
   }
 
   private clamp(value: number, min: number, max: number) {
     return Math.max(min, Math.min(max, value));
   }
 
-  private getInitialInset(resizable: HTMLElement): InsetType {
+  private deserializeInset(styleInset: string): InsetType {
     let top = 0;
     let right = 0;
     let bottom = 0;
     let left = 0;
-    const styleInset = resizable.style.inset
     if (styleInset) {
       const parts = styleInset.trim().split(/\s+/).map(token => parseFloat(token));
       if (!parts.some(n => Number.isNaN(n))) {

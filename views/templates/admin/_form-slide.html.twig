@@ -10,6 +10,9 @@
 {% import '@PrestaShop/Admin/macros.html.twig' as ps %}
 {% from '@Modules/imageslideshow/views/templates/admin/_macros.html.twig' import form_image_row %}
 
+<button class="btn btn-primary d-none" id="slide-editor-dzd-trigger" data-dzd-url="{{ form.vars.dzdUrl }}" data-dzd-fetch-url="{{ form.vars.dzdFetchUrl }}">
+</button>
+
 {{ form_start(form, {attr: {novalidate: 'novalidate'}}) }}
 <div class="card">
   <div class="card-header">
@@ -17,10 +20,25 @@
     {{ 'Slide'|trans({}, 'Modules.Imageslideshow.Imageslideshow') }}
   </div>
   <div class="card-body">
-    <div class="form-wrapper">
-      {{ form_errors(form) }}
 
-      {{ form_image_row(form.image, image, form.image.vars, form.image.vars.extra) }}
+    <div class="container-lg">
+      {{ form_errors(form) }}
+      <div class="slide-editor">
+        <div class="slide-editor-toolbar"></div>
+        <div class="imageslideshow imageless">
+          <div class="resizable-element">
+            <div class="slide-content"></div>
+          </div>
+          <div class="loader-overlay"><div class="spinner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-wrapper">
+
+      {{ form_row(form.image) }}
+
+      {#{{ form_image_row(form.image, image, form.image.vars, form.image.vars.extra) }}#}
 
       {{ form_image_row(form.imageMobile, null, form.imageMobile.vars, form.imageMobile.vars.extra) }}
 
@@ -31,10 +49,11 @@
       {{ form_row(form.legend) }}
 
       {# TODO translate spanish : Descripción #}
-      {{ ps.form_group_row(form.description, form.description.vars, {
+      {#{{ ps.form_group_row(form.description, form.description.vars, {
         'label': 'Description'|trans({}, 'Modules.Imageslideshow.Imageslideshow'),
         'class': 'she-tinymce'
-      }) }}
+      }) }}#}
+      {{ form_row(form.description) }}
 
       {{ form_row(form.targetBlank) }}
 

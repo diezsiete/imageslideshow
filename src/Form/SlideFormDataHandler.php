@@ -50,6 +50,7 @@ class SlideFormDataHandler implements FormDataHandlerInterface
         $slide
             ->setActive((bool)$data['active'])
             ->setTargetBlank((bool)$data['targetBlank'])
+            ->setInset($data['inset'])
             ->getLang()
             ->setTitle($data['title'])
             ->setDescription($data['description'])

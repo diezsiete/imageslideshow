@@ -79,6 +79,7 @@ class ImageSlideshow extends Module implements WidgetInterface
                 $slide = [
                     'id' => $slideEntity->getId(),
                     'title' => $slideEntity->getTitle(),
+                    'inset' => $slideEntity->getInset(),
                     'description' => '',
                     'legend' => $slideEntity->getLang()->getLegend(),
                     // 'sizes' => @getimagesize($slideEntity->getImagePath()),

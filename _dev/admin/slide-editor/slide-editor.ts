@@ -97,7 +97,7 @@ export default class SliderEditor {
   }
 
   setResizeInset(styleInset: string) {
-    this.resizable.setStyleInset(styleInset);
+    this.resizable.setInset(styleInset);
   }
 
   getContent(): string {
