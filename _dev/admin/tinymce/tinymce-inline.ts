@@ -4,6 +4,7 @@ import 'tinymce/models/dom';
 import 'tinymce/plugins/link';
 import 'tinymce/plugins/lists';
 import 'tinymce/plugins/code';
+import { RawEditorOptions } from "tinymce";
 
 export default function() {
   // const headingConfig = {
@@ -22,7 +23,7 @@ export default function() {
   //   },
   // };
 
-  const bodyConfig = {
+  const bodyConfig: RawEditorOptions = {
     license_key: 'gpl',
     base_url: '/modules/imageslideshow/public/tinymce', // Important: points to where assets were copied
     suffix: '.min',
@@ -44,9 +45,9 @@ export default function() {
     //   '*': 'font-size,font-family,color,text-decoration,text-align'
     // },
     fixed_toolbar_container: '.tinymce-inline-toolbar',
-    content_css: '/modules/imageslideshow/public/admin/slide-content.css'
+    content_css: '/modules/imageslideshow/public/admin/slide-content.css',
   };
 
   // tinymce.init(headingConfig);
-  tinymce.init(bodyConfig);
+  tinymce.init(bodyConfig)
 }

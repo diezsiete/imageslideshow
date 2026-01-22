@@ -1,9 +1,19 @@
 // tinymce-classic-trans -----------------------------------------------------------------------------------------------
 .tinymce-classic-trans-container {
-  background-repeat: no-repeat;
-  background-position: top;
-  background-size: cover;
-  min-height: 400px;
+  position: relative;
+  > img {
+    width: 100%;
+    height: auto;
+  }
+  .tox.tox-tinymce {
+    position: absolute;
+    inset: 0;
+
+    //outline: 2px solid #1976D2;
+    &:focus, &:hover {
+      outline: 2px solid #1976D2;
+    }
+  }
 }
 
 #tinymce-classic-trans_ifr {

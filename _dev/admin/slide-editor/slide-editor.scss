@@ -1,0 +1,69 @@
+.slide-editor {
+  .slide-editor-toolbar {
+    padding-bottom: 2px;
+  }
+  .imageslideshow {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2);
+    //vertical-align: top;
+    //background-repeat: no-repeat;
+    //background-position: top;
+    //background-size: cover;
+    //min-height: 400px;
+    position: relative;
+
+    &.imageless {
+      min-height: 400px;
+      background: #aaaaaa;
+    }
+
+    > img {
+      width: 100%;
+      height: auto;
+    }
+
+    .slide-content {
+      position: absolute;
+      inset: 0;
+
+      //outline: 2px solid #1976D2;
+      &:focus, &:hover {
+        outline: 2px solid #1976D2;
+      }
+
+    }
+  }
+
+  .loader-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 300ms ease, visibility 300ms ease;
+
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #ddd;
+      border-top: 2px solid #2942cc;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      background: transparent;
+    }
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

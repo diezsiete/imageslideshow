@@ -1,35 +1,36 @@
-{% extends '@PrestaShop/Admin/layout.html.twig' %}
+{% extends '@Modules/imageslideshow/views/templates/admin/layout.html.twig' %}
 
 {% block stylesheets %}
   {{ parent() }}
   <link rel="stylesheet" href="{{ asset('../modules/imageslideshow/public/tinymce-test.css') }}" media="all">
 {% endblock %}
 
-{% block core_javascript %}
-  {{ parent() }}
-  <script src="{{ asset('../modules/imageslideshow/public/migrate-mute.js') }}"></script>
-{% endblock %}
-
 {% block content %}
   <div class="card">
     <div class="card-body form-horizontal">
       <div class="form-wrapper">
-      {#<textarea id="mytextarea"></textarea>#}
 
-      {#<div class="tinymce-classic-trans-wrapper">
-        <div class="tinymce-classic-trans-toolbar tox"></div>
-        <div class="tinymce-classic-trans-container" style="background-image: url('/modules/imageslideshow/images/banner-pedro.png')">
-          <textarea id="tinymce-classic-trans"></textarea>
-        </div>
-        <div class="tinymce-classic-trans-statusbar tox"></div>
+
+        {#<div class="mb-3">
+
+        <button class="btn btn-outline-secondary ms-3" id="dz-button-2">
+          UPLOAD IMAGE 2
+        </button>
       </div>#}
 
-      {#<div class="demo-inline" style="background-image: url('/modules/imageslideshow/images/banner-pedro.png')">
-        <div class="tinymce-body">
-        </div>
-      </div>#}
+        {#<textarea id="mytextarea"></textarea>#}
 
-      <div class="tinymce-inline">
+        {#<div class="tinymce-classic-trans-wrapper">
+          <div class="tinymce-classic-trans-toolbar tox"></div>
+          <div class="tinymce-classic-trans-container">
+            <img src="/modules/imageslideshow/images/banner-pedro.png" alt="">
+            <div class="resizable-element">
+              <textarea id="tinymce-classic-trans" class="slide-content"></textarea>
+            </div>
+          </div>
+        </div>#}
+
+        {#<div class="tinymce-inline">
         <div class="tinymce-inline-toolbar"></div>
         <div class="imageslideshow">
           <img src="/modules/imageslideshow/images/banner-pedro.png" alt="">
@@ -40,6 +41,23 @@
               <p><span style="color: #ffffff;">El llano en llamas, Pedro Páramo y El gallo de oro.</span></p>
             </div>
           </div>
+        </div>
+      </div>#}
+
+      <button class="btn btn-primary d-none" id="slide-editor-dzd-trigger" data-dzd-url="{{ uploadUrl }}" data-dzd-fetch-url="{{ fetchUrl }}">
+        UPLOAD IMAGE
+      </button>
+      <div class="slide-editor">
+        <div class="slide-editor-toolbar"></div>
+        <div class="imageslideshow imageless">
+          <div class="resizable-element" style="inset: 34% 29% 39% 31%;">
+            <div class="slide-content">
+              <h1><span style="color: #ffffff; font-size: 36pt;">Obra reunida</span></h1>
+              <h2><span style="color: #f1c40f;">Juan Rulfo</span></h2>
+              <p><span style="color: #ffffff;">El llano en llamas, Pedro Páramo y El gallo de oro.</span></p>
+            </div>
+          </div>
+          <div class="loader-overlay"><div class="spinner"></div></div>
         </div>
       </div>
 

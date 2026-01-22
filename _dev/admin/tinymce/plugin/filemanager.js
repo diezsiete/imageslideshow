@@ -1,4 +1,5 @@
 tinymce.PluginManager.add('filemanager', (editor, url) => {
+  // console.log(editor.getParam('external_filemanager_path'))
   // Register a toolbar button
   editor.ui.registry.addButton('example', {
     text: 'My Button',

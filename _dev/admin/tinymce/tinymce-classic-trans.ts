@@ -2,7 +2,7 @@ import tinymce from 'tinymce/tinymce';
 
 // Import themes
 import 'tinymce/themes/silver';
-// import 'tinymce/models/dom';
+import 'tinymce/models/dom';
 
 // Import plugins (add the ones you need)
 import 'tinymce/plugins/code';
@@ -10,10 +10,11 @@ import 'tinymce/plugins/link';
 import 'tinymce/plugins/lists';
 // import 'tinymce/plugins/table';
 
+import ResizableElement from "../resizable-element/resizable-element";
+
 export default function() {
 
-
-  const baseAdminUrl = (window as any).baseAdminDir as string;
+  const resizable = new ResizableElement('.tinymce-classic-trans-wrapper .resizable-element');
 
   // Initialize TinyMCE
   tinymce.init({
@@ -29,7 +30,7 @@ export default function() {
     promotion: false, // remove the “Get all features”
     branding: false, // remove the “Build with tinyMCE”
     menubar: false,
-    // statusbar: false,
+    statusbar: false,
     resize: 'both',
 
     setup: function (editor) {

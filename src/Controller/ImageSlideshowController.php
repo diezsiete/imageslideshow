@@ -117,6 +117,11 @@ class ImageSlideshowController extends ImageSlideshowAdminController
     {
         return $this->render('@Modules/imageslideshow/views/templates/admin/tinymce-test.html.twig', [
             'layoutTitle' => 'TinyMCE',
+            'uploadUrl' => $this->generateUrl('imageslideshow_image_upload_temp'),
+            'fetchUrl' => $this->router->generate('imageslideshow_image_fetch', [
+                'location' => 'location',
+                'fileName' => 'fileName'
+            ]),
         ]);
     }
 }

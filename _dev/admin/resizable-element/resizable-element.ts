@@ -70,6 +70,10 @@ export default class ResizableElement {
       });
 
       document.addEventListener('mouseup', () => {
+        if (this.isDragging) {
+          const styleInset = resizableElement.style.inset;
+          this.insetStyleChangeListeners.forEach(listener => listener(styleInset))
+        }
         this.isDragging = false;
         this.currentHandle = undefined;
       });
@@ -78,16 +82,18 @@ export default class ResizableElement {
     }
   }
 
-  onInsetStyleChange(listener: (inset: string) => void): void {
+  onStyleInsetChange(listener: (styleInset: string) => void): void {
     this.insetStyleChangeListeners.push(listener);
   }
 
-  private updateInset() {
+  setStyleInset(styleInset: string) {
     if (this.resizable) {
-      const styleInset = `${this.inset.top}% ${this.inset.right}% ${this.inset.bottom}% ${this.inset.left}%`;
       this.resizable.style.inset = styleInset;
-      this.insetStyleChangeListeners.forEach(listener => listener(styleInset))
     }
+  }
+
+  private updateInset() {
+    this.setStyleInset(`${this.inset.top}% ${this.inset.right}% ${this.inset.bottom}% ${this.inset.left}%`);
   }
 
   private clamp(value: number, min: number, max: number) {

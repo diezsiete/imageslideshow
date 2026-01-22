@@ -2,7 +2,7 @@ import tinymce from 'tinymce/tinymce';
 
 // Import themes
 import 'tinymce/themes/silver';
-// import 'tinymce/models/dom';
+import 'tinymce/models/dom';
 
 // Import plugins (add the ones you need)
 import 'tinymce/plugins/code';
@@ -11,8 +11,12 @@ import 'tinymce/plugins/image';
 // import 'tinymce/plugins/link';
 // import 'tinymce/plugins/table';
 
+// import Dropzoned from './../file-upload/dropzoned';
+
 export default function() {
 
+  // const btn = document.getElementById('dzd-button') as HTMLButtonElement;
+  // const dzd = new Dropzoned(btn);
 
   const baseAdminUrl = (window as any).baseAdminDir as string;
 
@@ -25,7 +29,7 @@ export default function() {
     // plugins: 'lists link image table code',
     plugins: 'code image',
     // toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code',
-    toolbar: 'image | code | example',
+    toolbar: 'slideimage | selectiveDateButton | image | code | example',
     height: 500,
     promotion: false, // remove the “Get all features”
     menubar: false,
@@ -36,6 +40,7 @@ export default function() {
     external_plugins: {
       // filemanager: `${baseAdminUrl}filemanager/plugin.js`,
       filemanager: `/modules/imageslideshow/public/tinymce-plugin-filemanager.js`,
+      slideimage: `/modules/imageslideshow/public/admin/tinymce-plugin-slideimage.js`,
     },
     // https://www.tiny.cloud/docs/tinymce/latest/image/#file_picker_callback
     /*
@@ -74,6 +79,17 @@ export default function() {
 
       input.click();
     },
+
+    setup: editor => {
+      editor.ui.registry.addButton('selectiveDateButton', {
+        icon: 'image',
+        tooltip: 'Insert Current Date',
+        onAction: (_) => {
+          console.log('ok');
+        },
+      });
+    }
+
   });
 
 }
