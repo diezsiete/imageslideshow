@@ -9,19 +9,21 @@ import ResizableElement from "../resizable-element/resizable-element";
 import './slide-editor.scss';
 
 type SlideEditorOptions = {
+  selector?: string,
   onSlideImageUploaded?: (response: SuccessResponse) => void,
   onResize?: (styleInset: string) => void,
-  onBlur?: (editor: SliderEditor) => void,
+  onBlur?: (editor: SlideEditor) => void,
 }
 
-export default class SliderEditor {
+export default class SlideEditor {
   private imageUploadedListener: SlideEditorOptions['onSlideImageUploaded']
   private blurListener: SlideEditorOptions['onBlur']
+  private element: HTMLElement|null;
   private imageslideshow: HTMLElement|null;
   private slideImage: HTMLImageElement;
   private resizable: ResizableElement;
   private slideContent: HTMLElement|null;
-  private dropzoned: Dropzoned;
+  private dropzoned: Dropzoned|null;
   private loaderOverlay: HTMLElement|null;
   private editor: Editor|null = null;
 
@@ -29,59 +31,66 @@ export default class SliderEditor {
     this.imageUploadedListener = options?.onSlideImageUploaded;
     this.blurListener = options?.onBlur;
 
-    this.imageslideshow = document.querySelector<HTMLElement>('.slide-editor .imageslideshow');
+    this.element = document.querySelector<HTMLElement>(options?.selector ?? '.slide-editor');
+    this.imageslideshow = this.element?.querySelector<HTMLElement>('.imageslideshow') ?? null;
+    this.slideContent = this.element?.querySelector<HTMLElement>('.slide-content') ?? null
+    this.loaderOverlay = this.element?.querySelector<HTMLElement>('.loader-overlay') ?? null;
 
-    let slideImage = document.querySelector<HTMLImageElement>('.slide-editor .imageslideshow > img');
+    let slideImage = this.imageslideshow?.querySelector<HTMLImageElement>(':scope > img');
     if (!slideImage) {
       slideImage = document.createElement('img');
       this.imageslideshow?.prepend(slideImage);
     }
     this.slideImage = slideImage;
 
-    this.resizable = new ResizableElement('.slide-editor .resizable-element');
+    this.resizable = new ResizableElement(this.element?.querySelector<HTMLElement>('.resizable-element') ?? null);
     if (options?.onResize) {
       this.resizable.onStyleInsetChange(styleInset => options.onResize!(styleInset));
     }
 
-    this.dropzoned = new Dropzoned('#slide-editor-dzd-trigger', {
+    const dzdTrigger = this.element?.dataset.dzdTrigger;
+    const dropzonedContainer = dzdTrigger ? document.querySelector<HTMLElement>(dzdTrigger) : null;
+    this.dropzoned = dropzonedContainer ? new Dropzoned(dropzonedContainer, {
       error: () => this.loading(false),
       sending: () => this.loading(true),
       success: response => this.dzdSuccess(response),
-    })
-
-    this.slideContent = document.querySelector<HTMLElement>('.slide-editor .slide-content')
-
-    this.loaderOverlay = document.querySelector<HTMLElement>('.slide-editor .loader-overlay');
+    }) : null;
   }
 
-  init() {
+  async init() {
+    const toolbarContainer = this.element?.querySelector<HTMLElement>('.slide-editor-toolbar');
+    if (!this.slideContent || !toolbarContainer) return;
+
     const tinyOptions: RawEditorOptions = {
       license_key: 'gpl',
       base_url: '/modules/imageslideshow/public/tinymce',
       suffix: '.min',
-      selector: '.slide-content',
+      target: this.slideContent,
       menubar: false,
       inline: true,
       plugins: [
         'link', 'lists', 'code'
       ],
-      toolbar: "slideimage | blocks fontfamily fontsize | bold italic underline strikethrough | align numlist bullist | link | lineheight | forecolor backcolor removeformat | code",
+      toolbar: 'slideimage | blocks fontfamily fontsize | link | bold italic underline strikethrough | forecolor backcolor | align | numlist bullist lineheight removeformat | code',
+      toolbar_mode: 'scrolling', // 'wrap',
       toolbar_persist: true,
-      fixed_toolbar_container: '.slide-editor-toolbar',
+      fixed_toolbar_container_target: toolbarContainer,
       content_css: '/modules/imageslideshow/public/admin/slide-content.css',
-      slide_editor: this,
       setup: editor => {
         editor.ui.registry.addButton('slideimage', {
           icon: 'image',
           tooltip: 'Insert Slide Image',
-          onAction: (_) => this.dropzoned.click(),
+          onAction: () => this.dropzoned?.click(),
         });
 
         editor.on('blur', () => this.blurListener?.(this))
-      }
+      },
     };
 
-    tinymce.init(tinyOptions).then(editors => this.editor = editors[0] ?? null)
+    const editors = await tinymce.init(tinyOptions);
+    this.editor = editors[0] ?? null;
+
+    return this;
   }
 
   setSlideImage(src: string) {
@@ -90,7 +99,7 @@ export default class SliderEditor {
   }
 
   async fetchSlideImage(path: string) {
-    const src = await this.dropzoned.fetchImage(path);
+    const src = await this.dropzoned?.fetchImage(path);
     if (src) {
       this.setSlideImage(src);
     }
@@ -109,12 +118,17 @@ export default class SliderEditor {
     }
   }
 
-  getDropzoned(): Dropzoned {
-    return this.dropzoned
+  setDisabled(disabled: boolean) {
+    this.editor?.options.set('disabled', disabled);
+    this.resizable.setDisabled(disabled);
+  }
+
+  getImageslideshow(): HTMLElement|null {
+    return this.imageslideshow;
   }
 
   private async dzdSuccess(response: SuccessResponse) {
-    const src = await this.dropzoned.fetchImage(response);
+    const src = await this.dropzoned!.fetchImage(response);
     if (src) {
       this.setSlideImage(src);
       this.imageUploadedListener?.(response);

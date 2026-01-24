@@ -23,6 +23,7 @@ services:
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\SlideEditorImageType:
+    arguments: [ '@router' ]
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\SlideshowType:
@@ -33,7 +34,6 @@ services:
     arguments:
       - "@translator"
       - "@=service('prestashop.adapter.legacy.context').getLanguages()"
-      - "@router"
     tags: [ form.type ]
 
   PrestaShop\Module\ImageSlideshow\Form\SlideshowFormDataHandler:

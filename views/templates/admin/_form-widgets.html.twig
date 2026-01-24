@@ -16,3 +16,28 @@
     </label>
   </div>
 {%- endblock -%}
+
+
+{#{%- block slide_edtor_image_row -%}#}
+{#  {{- block('form_row') -}}#}
+{#{%- endblock -%}#}
+
+{%- block slide_edtor_image_widget -%}
+  {%- set type = 'hidden' -%}
+  {%- set dzdTrigger = id ~ '_dzd_trigger' -%}
+
+  <button class="btn btn-primary d-none" id="{{ dzdTrigger }}" data-dzd-url="{{ dzd.url }}" data-dzd-fetch-url="{{ dzd.fetchUrl }}">
+  </button>
+
+  <div class="slide-editor" data-dzd-trigger="#{{ dzdTrigger }}">
+    <div class="slide-editor-toolbar"></div>
+    <div class="imageslideshow imageless">
+      <div class="resizable-element">
+        <div class="slide-content"></div>
+      </div>
+      <div class="loader-overlay"><div class="spinner"></div></div>
+    </div>
+  </div>
+
+  {{- block('form_widget_simple') -}}
+{%- endblock -%}

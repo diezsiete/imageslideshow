@@ -12,11 +12,11 @@ export default class ResizableElement {
   private currentHandle: string|undefined = undefined;
   private startPos = { x: 0, y: 0 };
   private handlesCreated = false;
-
+  private disabled = false;
   private insetStyleChangeListeners: ((insetStyle: string) => void)[] = [];
 
-  constructor(resizable: string|HTMLElement) {
-    this.resizable = resizable instanceof HTMLElement ? resizable : document.querySelector<HTMLElement>(resizable);
+  constructor(resizable: string|HTMLElement|null) {
+    this.resizable = resizable instanceof HTMLElement ? resizable : (resizable ? document.querySelector<HTMLElement>(resizable) : null);
     this.container = this.resizable?.parentElement ?? null;
 
     if (this.resizable && this.container) {
@@ -27,7 +27,7 @@ export default class ResizableElement {
       const containerElement = this.container;
 
       this.resizable.addEventListener('click', (e) => {
-        if (e.target instanceof HTMLElement && !e.target.classList.contains('handle')) {
+        if (e.target instanceof HTMLElement && !e.target.classList.contains('handle') && !this.disabled) {
           if (!this.handlesCreated) {
             this.createHandles(resizableElement);
             this.handlesCreated = true;
@@ -42,7 +42,7 @@ export default class ResizableElement {
       });
 
       document.addEventListener('mousemove', (e) => {
-        if (!this.isDragging || !this.currentHandle) return;
+        if (!this.isDragging || !this.currentHandle || this.disabled) return;
 
         const rect = containerElement.getBoundingClientRect();
         const dx = e.clientX - this.startPos.x;
@@ -89,6 +89,10 @@ export default class ResizableElement {
   setInset(inset: string) {
     this.inset = this.deserializeInset(inset);
     this.setStyleInset();
+  }
+
+  setDisabled(disabled: boolean) {
+    this.disabled = disabled;
   }
 
   private setStyleInset() {
@@ -139,6 +143,8 @@ export default class ResizableElement {
       handle.dataset.side = side;
 
       handle.addEventListener('mousedown', (e) => {
+        if (this.disabled) return;
+
         e.preventDefault();
         e.stopPropagation();
         this.isDragging = true;

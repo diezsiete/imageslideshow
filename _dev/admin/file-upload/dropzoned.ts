@@ -18,7 +18,7 @@ export default class Dropzoned {
   private completeListeners: Array<() => void> = [];
   private errorListeners: Array<(message: string) => void> = [];
   private sendingListeners: Array<() => void> = [];
-  private successListeners: Array<(this: Dropzoned, response: SuccessResponse) => void> = [];
+  private successListeners: Array<(response: SuccessResponse) => void> = [];
 
   constructor(container: string|HTMLElement, opts?: DropzonedOptions) {
     const containerElement = container instanceof HTMLElement ? container : document.querySelector<HTMLElement>(container);

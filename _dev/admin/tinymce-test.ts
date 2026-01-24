@@ -1,5 +1,5 @@
 // import tinymce from "./tinymce/tinymce-classic-trans";
-import SliderEditor from "./slide-editor/slide-editor";
+import SlideEditor from "./slide-editor/slide-editor";
 // import TinyMCEEditor, { defaultOptions, inlineOptions } from './tinymce/tinymce-editor';
 import './imageslideshow.scss'
 import './tinymce-test.scss'
@@ -10,7 +10,7 @@ import ResizableElement from "./resizable-element/resizable-element";
 
 window.addEventListener('load', () => {
   // tinymce();
-  const slideEditor = new SliderEditor({
+  const slideEditor = new SlideEditor({
     onSlideImageUploaded: response => {
       console.log(response)
     },

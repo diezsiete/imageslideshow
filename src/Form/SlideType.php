@@ -19,36 +19,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class SlideType extends TranslatorAwareType
 {
-    public function __construct(
-        TranslatorInterface     $translator,
-        array                   $locales,
-        private readonly Router $router,
-    ) {
-        parent::__construct($translator, $locales);
-    }
-
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('image', FileUploadType::class, [
-            //     'constraints' => [
-            //         new Assert\NotNull(['message' => $this->trans('Image is required', 'Modules.Imageslideshow.Imageslideshow')]),
-            //     ],
-            //     'dir_final' => ImageManager::getImagesDir(),
-            //     'label' => $this->trans('Image', 'Admin.Global'),
-            // ])
             ->add('image', SlideEditorImageType::class, [
                 'constraints' => [
                     new Assert\NotNull(['message' => $this->trans('Image is required', 'Modules.Imageslideshow.Imageslideshow')]),
                 ],
+                'label' => $this->trans('Image', 'Admin.Global'),
             ])
-            ->add('imageMobile', FileUploadType::class, [
-                'dir_final' => ImageManager::getImagesDir(),
-                // TODO translate spanish: Imagen movil
-                'label' => $this->trans('Image mobile', 'Modules.Imageslideshow.Imageslideshow'),
-                'required' => false,
-            ])
+            ->add('description', FormType\HiddenType::class)
             ->add('title', FormType\TextType::class, [
                 'constraints' => [
                     new Assert\Length([
@@ -77,20 +57,6 @@ class SlideType extends TranslatorAwareType
                 'label' => 'Leyenda',
                 'required' => false
             ])
-
-            // ->add('description', FormattedTextareaType::class, [
-            //     'constraints' => [
-            //         new CleanHtml([
-            //             'message' => $this->trans(
-            //                 '%s is invalid.',
-            //                 'Admin.Notifications.Error'
-            //             ),
-            //         ]),
-            //     ],
-            //     'label' => $this->trans('Description', 'Admin.Global'),
-            //     'required' => false,
-            // ])
-            ->add('description', FormType\HiddenType::class)
             ->add('targetBlank', SwitchType::class, [
                 'label' => 'Abrir en ventana aparte',
                 'required' => false,
@@ -108,14 +74,5 @@ class SlideType extends TranslatorAwareType
                 'data' => !$data || ($data['active'] ?? true),
             ]);
         });
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options): void
-    {
-        $view->vars['dzdUrl'] = $this->router->generate('imageslideshow_image_upload_temp');
-        $view->vars['dzdFetchUrl'] = $this->router->generate('imageslideshow_image_fetch', [
-            'location' => 'location',
-            'fileName' => 'fileName'
-        ]);
     }
 }

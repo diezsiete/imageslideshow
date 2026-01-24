@@ -1,5 +1,5 @@
 import './imageslideshow.scss'
-import SliderEditor from "./slide-editor/slide-editor";
+import SlideEditor from "./slide-editor/slide-editor";
 import FileUpload from "./file-upload/file-upload";
 
 window.addEventListener('load', () => {
@@ -7,7 +7,7 @@ window.addEventListener('load', () => {
   const insetInput = new HiddenInput('#slide_inset');
   const descriptionInput = new HiddenInput('#slide_description')
 
-  const slideEditor = new SliderEditor({
+  const slideEditor = new SlideEditor({
     onSlideImageUploaded: response => {
       imageInput.value = response.path;
     },
