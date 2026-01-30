@@ -7,6 +7,8 @@ import 'tinymce/plugins/code';
 import Dropzoned, { SuccessResponse } from '../file-upload/dropzoned';
 import ResizableElement from "../resizable-element/resizable-element";
 import './slide-editor.scss';
+import FontSizer from "./font-sizer";
+import { resizeObserver } from "../../front/slide-content";
 
 type SlideEditorOptions = {
   selector?: string,
@@ -26,6 +28,7 @@ export default class SlideEditor {
   private dropzoned: Dropzoned|null;
   private loaderOverlay: HTMLElement|null;
   private editor: Editor|null = null;
+  private fontSizer: FontSizer;
 
   constructor(options?: SlideEditorOptions) {
     this.imageUploadedListener = options?.onSlideImageUploaded;
@@ -55,6 +58,10 @@ export default class SlideEditor {
       sending: () => this.loading(true),
       success: response => this.dzdSuccess(response),
     }) : null;
+
+    resizeObserver(this.imageslideshow, this.slideContent);
+
+    this.fontSizer = new FontSizer(this);
   }
 
   async init() {
@@ -71,7 +78,7 @@ export default class SlideEditor {
       plugins: [
         'link', 'lists', 'code'
       ],
-      toolbar: 'slideimage | blocks fontfamily fontsize | link | bold italic underline strikethrough | forecolor backcolor | align | numlist bullist lineheight removeformat | code',
+      toolbar: 'slideimage | blocks fontfamily fontsizer | link | bold italic underline strikethrough | forecolor backcolor | align | numlist bullist lineheight removeformat | code',
       toolbar_mode: 'scrolling', // 'wrap',
       toolbar_persist: true,
       fixed_toolbar_container_target: toolbarContainer,
@@ -84,7 +91,12 @@ export default class SlideEditor {
         });
 
         editor.on('blur', () => this.blurListener?.(this))
+
+        this.fontSizer.setup(editor);
       },
+      init_instance_callback: editor => {
+        this.fontSizer.initInstance(editor);
+      }
     };
 
     const editors = await tinymce.init(tinyOptions);

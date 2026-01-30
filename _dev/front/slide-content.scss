@@ -6,9 +6,12 @@
   box-sizing: border-box;
 
   font-family: sans-serif;
-  font-size: 16px;
   line-height: 1.4;
   color: #000;
+  //font-size: 16px;
+  --scale: 1;
+  //aspect-ratio: 16 / 9;
+  font-size: calc(var(--scale) * 16px);
 
   position: absolute;
   inset: 0;
@@ -17,9 +20,11 @@
     box-sizing: border-box;
   }
 
+
   p {
     margin: 0;
     line-height: 1;
+    font-size: inherit;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -27,6 +32,7 @@
     font-weight: 600;
     line-height: 1;
     font-family: inherit;
+    font-size: inherit;
   }
 
   strong {
@@ -55,5 +61,31 @@
     max-width: 100%;
     height: auto;
     display: block;
+  }
+
+  .txtxs, .txtsm, .txtb, .txtmd, .txtlg, .txtxl, .txt2xl {
+    font-size: calc(var(--user-font-size) * 1em);
+  }
+
+  .txtxs {
+    --user-font-size: .6;
+  }
+  .txtsm {
+    --user-font-size: .9;
+  }
+  .txtb {
+    --user-font-size: 1;
+  }
+  .txtmd {
+    --user-font-size: 1.5;
+  }
+  .txtlg {
+    --user-font-size: 2;
+  }
+  .txtxl {
+    --user-font-size: 4;
+  }
+  .txt2xl {
+    --user-font-size: 8;
   }
 }

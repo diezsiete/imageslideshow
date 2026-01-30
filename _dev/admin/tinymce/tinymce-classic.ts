@@ -40,7 +40,6 @@ export default function() {
     external_plugins: {
       // filemanager: `${baseAdminUrl}filemanager/plugin.js`,
       filemanager: `/modules/imageslideshow/public/tinymce-plugin-filemanager.js`,
-      slideimage: `/modules/imageslideshow/public/admin/tinymce-plugin-slideimage.js`,
     },
     // https://www.tiny.cloud/docs/tinymce/latest/image/#file_picker_callback
     /*

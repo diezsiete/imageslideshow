@@ -1,4 +1,4 @@
-// import tinymce from "./tinymce/tinymce-classic-trans";
+import tinymce from "./tinymce/tinymce-classic";
 import SlideEditor from "./slide-editor/slide-editor";
 // import TinyMCEEditor, { defaultOptions, inlineOptions } from './tinymce/tinymce-editor';
 import './imageslideshow.scss'
@@ -9,21 +9,21 @@ import ResizableElement from "./resizable-element/resizable-element";
 // import Dropzoned from './file-upload/dropzoned';
 
 window.addEventListener('load', () => {
-  // tinymce();
-  const slideEditor = new SlideEditor({
-    onSlideImageUploaded: response => {
-      console.log(response)
-    },
-    onResize: (styleInset) => {
-      console.log(styleInset)
-    },
-    onBlur: editor => {
-      console.log(editor.getContent())
-    }
-  });
-
-  slideEditor.init()
-  slideEditor.setSlideImage('/modules/imageslideshow/images/banner-pedro.png');
+  tinymce();
+  // const slideEditor = new SlideEditor({
+  //   onSlideImageUploaded: response => {
+  //     console.log(response)
+  //   },
+  //   onResize: (styleInset) => {
+  //     console.log(styleInset)
+  //   },
+  //   onBlur: editor => {
+  //     console.log(editor.getContent())
+  //   }
+  // });
+  //
+  // slideEditor.init()
+  // slideEditor.setSlideImage('/modules/imageslideshow/images/banner-pedro.png');
 
   // const resizable = new ResizableElement('.resizable-element');
 
